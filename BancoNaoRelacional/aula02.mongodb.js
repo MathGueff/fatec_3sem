@@ -149,15 +149,15 @@ db.estados.find({
 //Nao precisa do equal para entender
 use('estoque')
 db.estados.deleteOne({sigla : 'AC'})
+
 use('estoque')
 db.estados.deleteOne({sigla : {$eq : 'AC'}})
 
 use('estoque')
-db.estados.insertOne({
-    sigla : 'AC',
-    nome : 'Acre',
-    populacao : 12000000
-})
+db.estados.deleteMany({nome: /o/i})
 
 use('estoque')
-db.estados.deleteMany({nome: /o/i})
+db.estados.updateOne({sigla : {$eq : 'AC'}}, {$set : {populacao : 1}})
+
+use('estoque')
+db.estados.find()
