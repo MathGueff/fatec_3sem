@@ -1,0 +1,12 @@
+%eq (igual)
+$ne (diferente)
+$gt (maior)
+$gte (maior ou igual)
+$lt (menor)
+$lte (menor ou igual)
+/(algo)/ (regex)
+
+
+and $and
+or $or
+not $not

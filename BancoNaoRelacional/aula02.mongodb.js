@@ -89,3 +89,75 @@ try{
 } catch(err){
     printjson(err);
 }
+
+use('estoque')
+db.estados.insertMany([
+    {sigla:'SP', nome: 'São Paulo', populacao: 12000000},
+    {sigla: 'AC', nome: 'Acre', populacao: 712000},
+    {sigla: 'RJ', nome: 'Rio de Janeiro', populacao: 2500000}
+])
+
+use('estoque')
+db.estados.find({}, {})
+
+//SELECT id, nome from estados where sigla = 'SP'
+use('estoque')
+db.estados.find({sigla : {$eq: 'SP'}}, {nome:1})
+
+/* FILTROS */
+
+// i = insensitive case (nao diferencia maiusculo de minusculo)
+// $ = que termine
+// ^ = que inicie
+
+//SELECT nome from estados where nome like %Paulo%
+use('estoque')
+db.estados.find({nome : /paulo/i}, {_id:0, nome:1})
+use('estoque')
+db.estados.find({nome : /^rio/i}, {_id:0, nome:1})
+
+//SELECT * from estados where nome like %o
+use('estoque')
+db.estados.find({nome : /o$/i}, {_id:0, nome:1})
+
+//SELECT * from estados where populacao >= 11000000
+use('estoque')
+db.estados.find({populacao : { $gte: 11000000}})
+
+//SELECT * from estados where populacao <= 11000000
+use('estoque')
+db.estados.find({populacao : { $lte: 11000000}})
+
+//SELECT * from estados where sigla IN ('SP', 'AC')
+use('estoque')
+db.estados.find({sigla : {$in: ['SP', 'AC']}})
+
+//SELECT * from estados where sigla not IN ('AC', 'SP')
+use('estoque')
+db.estados.find({sigla : {$nin: ['SP', 'AC']}})
+
+//SELECT * from estados where sigla = 'SP' or sigla = 'AC'
+use('estoque')
+db.estados.find({
+    $or : [
+        {sigla : {$eq : 'AC'}},
+        {sigla : {$eq : 'SP'}}
+    ]
+})
+
+//DELETE
+//Nao precisa do equal para entender
+use('estoque')
+db.estados.deleteOne({sigla : 'AC'})
+use('estoque')
+db.estados.deleteOne({sigla : {$eq : 'AC'}})
+
+use('estoque')
+db.estados.insertOne({
+    sigla : 'AC',
+    nome : 'Acre',
+    populacao : 12000000
+})
+
+use('estoque')
+db.estados.deleteMany({nome: /o/i})
