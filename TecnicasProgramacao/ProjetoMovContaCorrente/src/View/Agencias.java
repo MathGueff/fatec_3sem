@@ -108,15 +108,19 @@ public class Agencias extends javax.swing.JFrame {
         JTextField1 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         JTextField11 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Nome da Agência");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 56, -1, -1));
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Endereço da Agência");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 84, -1, -1));
 
         JTextField2.setBackground(new java.awt.Color(204, 204, 204));
         JTextField2.setForeground(new java.awt.Color(51, 51, 51));
@@ -125,13 +129,16 @@ public class Agencias extends javax.swing.JFrame {
                 JTextField2ActionPerformed(evt);
             }
         });
+        getContentPane().add(JTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 53, 171, -1));
 
         JTextField3.setBackground(new java.awt.Color(204, 204, 204));
         JTextField3.setForeground(new java.awt.Color(51, 51, 51));
+        getContentPane().add(JTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 81, 171, -1));
 
         JTextField4.setBackground(new java.awt.Color(204, 204, 204));
         JTextField4.setForeground(new java.awt.Color(51, 51, 51));
         JTextField4.setToolTipText("");
+        getContentPane().add(JTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 109, 171, -1));
 
         jButton1.setText("Gravar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +146,7 @@ public class Agencias extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 348, -1, -1));
 
         btn_Ler.setText("Ler");
         btn_Ler.addActionListener(new java.awt.event.ActionListener() {
@@ -146,22 +154,27 @@ public class Agencias extends javax.swing.JFrame {
                 btn_LerActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_Ler, new org.netbeans.lib.awtextra.AbsoluteConstraints(382, 348, -1, -1));
 
         JTextField5.setBackground(new java.awt.Color(204, 204, 204));
         JTextField5.setForeground(new java.awt.Color(51, 51, 51));
         JTextField5.setToolTipText("");
+        getContentPane().add(JTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 137, 171, -1));
 
         JTextField6.setBackground(new java.awt.Color(204, 204, 204));
         JTextField6.setForeground(new java.awt.Color(51, 51, 51));
         JTextField6.setToolTipText("");
+        getContentPane().add(JTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 165, 171, -1));
 
         JTextField7.setBackground(new java.awt.Color(204, 204, 204));
         JTextField7.setForeground(new java.awt.Color(51, 51, 51));
         JTextField7.setToolTipText("");
+        getContentPane().add(JTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 193, 171, -1));
 
         JTextField8.setBackground(new java.awt.Color(204, 204, 204));
         JTextField8.setForeground(new java.awt.Color(51, 51, 51));
         JTextField8.setToolTipText("");
+        getContentPane().add(JTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 221, 171, -1));
 
         btn_Limpar.setText("Limpar");
         btn_Limpar.addActionListener(new java.awt.event.ActionListener() {
@@ -169,21 +182,27 @@ public class Agencias extends javax.swing.JFrame {
                 btn_LimparActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_Limpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 348, -1, -1));
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Número da Agência");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 112, -1, -1));
 
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Complemento da Agência");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Bairro da Agência");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 168, -1, -1));
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Cidade da Agência");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 196, -1, -1));
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("CEP da Agência");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 224, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
         jComboBox1.setToolTipText("");
@@ -192,12 +211,15 @@ public class Agencias extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 249, -1, -1));
 
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Estado da Agência");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 252, -1, -1));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Id da Agência");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 28, -1, -1));
 
         JTextField1.setBackground(new java.awt.Color(204, 204, 204));
         JTextField1.setForeground(new java.awt.Color(51, 51, 51));
@@ -206,109 +228,17 @@ public class Agencias extends javax.swing.JFrame {
                 JTextField1ActionPerformed(evt);
             }
         });
+        getContentPane().add(JTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 25, 171, -1));
 
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Telefone da Agência");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
         JTextField11.setBackground(new java.awt.Color(204, 204, 204));
         JTextField11.setForeground(new java.awt.Color(51, 51, 51));
         JTextField11.setToolTipText("");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                        .addComponent(btn_Limpar)
-                        .addGap(107, 107, 107)
-                        .addComponent(btn_Ler)
-                        .addGap(20, 20, 20))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(JTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(JTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(JTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(JTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(JTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(JTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(JTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(JTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(JTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(JTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(JTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(JTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(btn_Limpar)
-                    .addComponent(btn_Ler))
-                .addContainerGap())
-        );
+        getContentPane().add(JTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 277, 171, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -444,5 +374,6 @@ public class Agencias extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -88,6 +88,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Alterar");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem14.setText("Excluir");
@@ -106,6 +111,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu3.add(jMenuItem5);
 
         jMenuItem6.setText("Alterar");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem6);
 
         jMenuItem15.setText("Excluir");
@@ -124,6 +134,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu4.add(jMenuItem7);
 
         jMenuItem8.setText("Alterar");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem8);
 
         jMenuItem16.setText("Excluir");
@@ -142,6 +157,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu5.add(jMenuItem9);
 
         jMenuItem10.setText("Alterar");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem10);
 
         jMenuItem17.setText("Excluir");
@@ -160,6 +180,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu6.add(jMenuItem11);
 
         jMenuItem12.setText("Alterar");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem12);
 
         jMenuItem18.setText("Excluir");
@@ -229,6 +254,36 @@ public class Menu extends javax.swing.JFrame {
         Clientes acesso_cliente = new Clientes(operacao);
         acesso_cliente.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        String operacao = "Alterar";
+        Agencias acesso_agencias = new Agencias(operacao);
+        acesso_agencias.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        String operacao = "Alterar";
+        CadContaCorrente acesso_conta_corrente = new CadContaCorrente(operacao);
+        acesso_conta_corrente.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        String operacao = "Alterar";
+        CadHistorico acesso_historico = new CadHistorico(operacao);
+        acesso_historico.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        String operacao = "Alterar";
+        CadMovimentacao acesso_movimentacao = new CadMovimentacao(operacao);
+        acesso_movimentacao.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        String operacao = "Alterar";
+        Usuarios acesso_usuarios = new Usuarios(operacao);
+        acesso_usuarios.setVisible(true);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     /**
      * @param args the command line arguments

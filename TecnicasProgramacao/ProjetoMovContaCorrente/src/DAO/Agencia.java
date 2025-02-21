@@ -194,6 +194,21 @@ public class Agencia {
         return dadosAgencia;        
     }
     
+    public String alteraDadosSQLValues(){
+    String dadosClientes;
+    dadosClientes = 
+        "NUM_AGE='" + getSqlValue(this.getNum_agencia()) + "'," +
+        "ENDE_AGE='" + getSqlValue(this.getEndereco()) + "'," +
+        "NUME_AGE='" +getSqlValue(this.getNumero()) + "'," +
+        "COMPL_AGE='" +getSqlValue(this.getComplemento()) + "'," +
+        "BAIR_AGE='" +getSqlValue(this.getBairro()) + "'," +
+        "CIDA_AGE='" +getSqlValue(this.getCidade()) + "'," +
+        "UF_AGE='" +getSqlValue(this.getUf()) + "'," +
+        "CEP_AGE='" +getSqlValue(this.getCep()) + "'," +
+        "FONE_AGE='" +getSqlValue(this.getNumero()) + "'";
+        return dadosClientes;
+    }
+    
     // Função auxiliar para verificar se o valor é nulo ou vazio
     private String getSqlValue(String value) {
         String campo = (value == null || value.isEmpty()) ? "NULL" : "'" + value + "'";

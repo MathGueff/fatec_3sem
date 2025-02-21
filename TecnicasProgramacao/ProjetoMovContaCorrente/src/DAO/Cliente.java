@@ -419,6 +419,24 @@ public class Cliente {
         return dadosClientes;
     }
     
+    public String alteraDadosSQLValues(){
+    String dadosClientes;
+    dadosClientes = 
+        "NOME_CLI='" + getSqlValue(this.getNome()) + "'," +
+        "ENDE_CLI='" + getSqlValue(this.getEndereco()) + "'," +
+        "NUME_CLI='" +getSqlValue(this.getNumero()) + "'," +
+        "COMPL_CLI='" +getSqlValue(this.getComplemento()) + "'," +
+        "BAIR_CLI='" +getSqlValue(this.getBairro()) + "'," +
+        "CIDA_CLI='" +getSqlValue(this.getCidade()) + "'," +
+        "UF_CLI='" + getSqlValue(this.getUf()) + "'," +
+        "CEP_CLI='" + getSqlValue(this.getCep()) + "'," +
+        "FONE_CLI='" + getSqlValue(this.getTelefone()) + "'," +
+        "CPF_CLI='" +  getSqlValue(this.getCpf()) + "'," +
+        "DATA_NASC='" + getSqlValue(this.getDataNascimento()) + "'," +
+        "CNPJ_CLI" + getSqlValue(this.getCnpj()) + "'";
+        return dadosClientes;
+    }
+    
     // Função auxiliar para verificar se o valor é nulo ou vazio
     private String getSqlValue(String value) {
         String campo = (value == null || value.isEmpty()) ? "NULL" : "'" + value + "'";
