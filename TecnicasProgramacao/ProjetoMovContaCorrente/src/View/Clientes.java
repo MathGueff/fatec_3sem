@@ -418,51 +418,11 @@ public class Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        JTextField2.setText(c.getNome());
-//        JTextField3.setText(c.getEndereco());
-//        JTextField4.setText(c.getNumero());
-//        JTextField5.setText(c.getBairro());
-//        JTextField6.setText(c.getCidade());
-//        JTextField7.setText(c.getCep());
-//        JTextField8.setText(c.getEmail());
-//        JTextField9.setText(c.getTelefone());
 //        
-//        if(identificacao == "cpf"){
-//            JTextField10.setText(c.getCpf());
-//        }
-//        else if(identificacao == "cnpj"){
-//            JTextField10.setText(c.getCnpj());
-//        }
-//        
-//        JComboBox.setSelectedItem(c.getUf());
-//        if(c.getSexo() == 'F')
-//        {
-//            JRadioButton1.setSelected(true);
-//            JRadioButton2.setSelected(false);
-//            sexoSelecionado = 'F';
-//        }
-//        else if(c.getSexo() == 'M')
-//        {
-//            JRadioButton1.setSelected(false);
-//            JRadioButton2.setSelected(true);
-//            sexoSelecionado = 'M';
-//        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        JTextField2.setText("");
-//        JTextField3.setText("");
-//        JTextField4.setText("");
-//        JTextField5.setText("");
-//        JTextField6.setText("");
-//        JTextField7.setText("");
-//        JTextField9.setText("");
-//        JTextField8.setText("");
-//        JTextField10.setText("");
-//        JComboBox.setSelectedIndex(0);
-//        JRadioButton1.setSelected(false);
-//        JRadioButton2.setSelected(false);
-//        sexoSelecionado = ' ';
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

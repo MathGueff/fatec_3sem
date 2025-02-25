@@ -72,5 +72,30 @@ public class connectDAO {
             Logger.getLogger(connectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void alterarRegistroJFDB(String tabela,String strDados, String pesquisaID){
+        con = connectDB();
+        Statement stmt;
+        try{
+            stmt = con.createStatement();
+            String sql = "UPDATE dbo." + tabela +
+                    " SET " + strDados +
+                    " WHERE {" + pesquisaID + "};";
+                    
+            JOptionPane.showMessageDialog(null, "String de Update: " + sql);
+            
+            try{
+                stmt.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null, "Alteração executada com sucesso");
+            } catch(SQLException erro){
+                JOptionPane.showMessageDialog(null, "Erro de conexão, connectDAO - Mensagem => "+erro.getMessage());
+                JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Estado => "+erro.getSQLState());
+                JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Código => "+erro.getErrorCode());
+            }
+            con.close();
+        } catch(SQLException ex){
+            Logger.getLogger(connectDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
  
