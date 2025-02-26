@@ -1,0 +1,6 @@
+EXPRESS
+
+npm init -y (inicializa o projeto node, cria o package.json)
+-y cria na config padrão
+
+npm i express (instalar o express)
