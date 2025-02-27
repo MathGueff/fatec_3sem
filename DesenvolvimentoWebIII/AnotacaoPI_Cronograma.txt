@@ -1,0 +1,6 @@
+- CRUD (Usuários, Reclamação, Comentário, Imagem, Tag, Doença, Notícia, Sintoma, Fonte)
+- Upload de Imagem
+- Login com redes sociais
+- Filtros 
+- Log
+- Geração de Pontuação
