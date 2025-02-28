@@ -183,7 +183,7 @@ const dadosFuncionarios = [
     //Exercício17 - Nao consegui
     use('exercicio')
     db.funcionarios.find(
-        {dataCadastro : {$gte : new Date()}}
+        {dataCadastro : {$gte : new Date()  - 30}}
     )
 
     //Exercício18 - Mostrando funcionários cujo nome começa com "João"

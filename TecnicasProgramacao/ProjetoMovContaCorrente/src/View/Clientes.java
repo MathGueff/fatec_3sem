@@ -347,7 +347,8 @@ public class Clientes extends javax.swing.JFrame {
             dados_cliente.setComplemento(JTextField11.getText());
             dados_cliente.setDataNascimento(JTextField12.getText());
             
-            //objcon.alteraRegistroJFDB("CLIENTES", dados_cliente.alteraDadosSQLValues(), "ID_CLI=" +JTextField1.getText());
+            objcon.alteraRegistroJFDB("CLIENTES", dados_cliente.alteraDadosSQLValues(), 
+                    "ID_CLI=" +JTextField1.getText());
             
             JTextField2.setText("");
             JTextField3.setText("");

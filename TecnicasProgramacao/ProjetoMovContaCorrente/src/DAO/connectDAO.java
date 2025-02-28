@@ -1,20 +1,15 @@
 package DAO; 
- 
-//import java.util.List;
 
-//import java.sql.Statement;
-
+import java.util.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.util.logging.Level;
-
-//import java.sql.ResultSet;
-
-//import java.util.ArrayList;
 
 // import javax.swing.table.AbstractTableModel;
  
@@ -73,7 +68,7 @@ public class connectDAO {
         }
     }
     
-    public void alterarRegistroJFDB(String tabela,String strDados, String pesquisaID){
+    public void alteraRegistroJFDB(String tabela,String strDados, String pesquisaID){
         con = connectDB();
         Statement stmt;
         try{
@@ -96,6 +91,54 @@ public class connectDAO {
         } catch(SQLException ex){
             Logger.getLogger(connectDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public Cliente pesquisaClienteJFDB(String tabela, String pesquisaId){
+        Cliente clientesReturn = new Cliente();
+        String tabelaSGBD = "CLIENTES";
+        
+        if(tabela.equals(tabelaSGBD)){
+            con = connectDB();
+            
+            Statement stmt;
+            
+            try {
+                stmt = con.createStatement();
+                String sql = "SELECT * FROM " + tabela + " WHERE " + pesquisaId;
+                try {
+                    ResultSet dados;
+                    dados = stmt.executeQuery(sql);
+                    if(dados.next() == false){
+                        JOptionPane.showMessageDialog(null, "Nenhum registro foi encontrado para essa pesquisa");
+                    }
+                    else{
+                        clientesReturn.setId_cli(dados.getInt(1));
+                        clientesReturn.setNome(dados.getString(2));
+                        clientesReturn.setEndereco(dados.getString(3));
+                        clientesReturn.setNumero(dados.getString(4));
+                        clientesReturn.setComplemento(dados.getString(5));
+                        clientesReturn.setBairro(dados.getString(6));
+                        clientesReturn.setCidade(dados.getString(7));
+                        clientesReturn.setUf(dados.getString(8));
+                        clientesReturn.setCep(dados.getString(9));
+                        clientesReturn.setTelefone(dados.getString(10));
+                        clientesReturn.setCpf(dados.getString(11));
+                        clientesReturn.setDataNascimento(dados.getString(12));
+                        clientesReturn.setCnpj(dados.getString(13));
+                    }
+                    con.close();
+                    return clientesReturn;
+                } catch(SQLException erro){
+                    JOptionPane.showMessageDialog(null, "Erro de conexão, connectDAO - Mensagem => "+erro.getMessage());
+                    JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Estado => "+erro.getSQLState());
+                    JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Código => "+erro.getErrorCode());
+                }
+                con.close();
+            } catch(SQLException ex){
+                Logger.getLogger(connectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return clientesReturn;
     }
 }
  
