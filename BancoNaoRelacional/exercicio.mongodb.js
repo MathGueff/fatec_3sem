@@ -1,5 +1,9 @@
+/*
+    Exercícios MongoDB - MATHEUS AUGUSTO SANTOS GUEFF
+*/
+
 use('exercicio')
-//Exercício 1
+//Exercício 1 - Adicionando os funcionários
 const dadosFuncionarios = [
     {
     nome: "João Silva",
@@ -87,9 +91,10 @@ const dadosFuncionarios = [
         dataCadastro : new Date()
     })
 
-    //Exercício3 - Aumentando o salário de todos em 100
+    //Exercício3 - Aumentando o salário de todos Desenvolvedores em 100
     use('exercicio')
-    db.funcionarios.updateMany({}, 
+    db.funcionarios.updateMany(
+        {cargo : {$eq : 'Desenvolvedor'}}, 
         {$inc : {salario : 100}}
     )
 
@@ -165,10 +170,13 @@ const dadosFuncionarios = [
         {nome:1, salario:1,departamento:1, sexo:1, _id:0}
     )
 
-    //Exercício15 - Mostrando contratados antes de 2023
+    //Exercício15 - Mostrando contratados antes de 2023 e com salario menor que 5000
     use('exercicio')
     db.funcionarios.find(
-        {dataContratacao : {$lt : new Date('2023-01-01')}}
+        {$and : [
+            {dataContratacao : {$lt : new Date('2023-01-01')}},
+            {salario : {$lt : 5000}}
+        ]}
     )
 
     //Exercício16 - Mostrando quem tem mais de um projeto
@@ -180,11 +188,14 @@ const dadosFuncionarios = [
         ]}
     )
 
-    //Exercício17 - Nao consegui
+    //Exercício17 - Todos os funcionários com data de cadastro até 30 dias atrás
     use('exercicio')
-    db.funcionarios.find(
-        {dataCadastro : {$gte : new Date()  - 30}}
-    )
+    db.funcionarios.find({
+        $and : [
+            {dataCadastro : {$gt : new Date(new Date().setDate(new Date().getDate() - 30))}},
+            {dataCadastro : {$lt : new Date()}}   
+        ]
+    })    
 
     //Exercício18 - Mostrando funcionários cujo nome começa com "João"
     use('exercicio')
@@ -201,23 +212,31 @@ const dadosFuncionarios = [
     //Exercício20 - Mostrando funcionários que contenham "Luiz" ou "Luiza" no nome
     use('exercicio')
     db.funcionarios.find(
-        {$or : [{nome : /Luis/}, {nome : /Luiz/}]}
+        {$or : [
+            {nome : /Luis/}, 
+            {nome : /Luiz/}
+        ]}
     )
 
     //Exercício21 - Mostrando funcionários do dep de TI e com sal maior ou igual a 4500
     use('exercicio')
     db.funcionarios.find(
-        {$and : [{departamento : {$eq : "TI"}}, {salario : {$gt : 4500}}]}
+        {$and : [
+            {departamento : {$eq : "TI"}}, 
+            {salario : {$gt : 4500}}
+        ]}
     )
 
     //Exercício22 - Mostrando funcionários que não tenham cargo de Desenvolvedor e que tenham sido contratados em 2023
     use('exercicio')
     db.funcionarios.find(
         {$and : [
-            {cargo : {$nin : ["Desenvolvedor"]}}, 
-            {dataContratacao : {$gt : new Date('2022-12-31'), $lt : new Date('2024-01-01')}}
-            ]
-        }
+            {cargo : {$not : {$eq : 'Desenvolvedor'}}}, 
+            {$and : [
+                {dataContratacao : {$gt : new Date('2022-12-31')}},
+                {dataContratacao : {$lt : new Date('2024-01-01')}}
+            ]}
+        ]}
     )
     
     //Exercício23 - Mostrando funcionários que trabalham nos projetos A ou B  e que tenham sal menor ou igual a 5000
@@ -252,7 +271,7 @@ const dadosFuncionarios = [
     use('exercicio')
     db.funcionarios.find(
         {$and : [
-            {cargo : {$in : ['Desenvolvedor', 'Analista']}},
+            {cargo : {$in : ['Desenvolvedor', /^Analista/]}},
             {salario : {$gt : 4000}},
             {dataContratacao : {$gt : new Date('2022-12-31')}}
         ]}
