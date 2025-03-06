@@ -187,6 +187,7 @@ public class CadMovimentacao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Inserindo os dados
         m.setNum_conta(jTextField1.getText());
         m.setNum_age(jTextField2.getText());
         m.setDocumento(jTextField3.getText());
@@ -194,8 +195,8 @@ public class CadMovimentacao extends javax.swing.JFrame {
         m.setCreditoDebito(tipoCartao); //Variável com o radio selecionado
         m.setId_his(jTextField5.getText().isBlank() || jTextField5.getText().isEmpty() ? 0 : Integer.parseInt(jTextField5.getText()));
         m.setCompl_hist(jTextField6.getText());
-        m.setSaldo(jTextField7.getText().isBlank() || jTextField7.getText().isEmpty()? 0 : Double.parseDouble(jTextField7.getText()));
-        m.setValor(jTextField8.getText().isBlank() || jTextField8.getText().isEmpty()? 0 : Double.parseDouble(jTextField8.getText()));
+        m.setValor(jTextField7.getText().isBlank() || jTextField7.getText().isEmpty()? 0 : Double.parseDouble(jTextField7.getText()));
+        m.setSaldo(jTextField8.getText().isBlank() || jTextField8.getText().isEmpty()? 0 : Double.parseDouble(jTextField8.getText()));
         JOptionPane.showMessageDialog(null, "Cadastrado");
         
         connectDAO objcon = new connectDAO();

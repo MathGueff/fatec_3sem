@@ -347,21 +347,35 @@ public class Clientes extends javax.swing.JFrame {
             dados_cliente.setComplemento(JTextField11.getText());
             dados_cliente.setDataNascimento(JTextField12.getText());
             
-            objcon.alteraRegistroJFDB("CLIENTES", dados_cliente.alteraDadosSQLValues(), 
-                    "ID_CLI=" +JTextField1.getText());
+            switch (JTextField10.getText().length()) {
+               case 11:
+                   //CPF
+                   dados_cliente.setCpf(JTextField10.getText());
+                   identificacao = "cpf";
+                   break;
+               case 14:
+                   //CNPJ
+                   dados_cliente.setCnpj(JTextField10.getText());
+                   identificacao = "cnpj";
+                   break;
+               }
+               dados_cliente.setUf(JComboBox.getSelectedItem().toString());
             
-            JTextField2.setText("");
-            JTextField3.setText("");
-            JTextField4.setText("");
-            JTextField5.setText("");
-            JTextField6.setText("");
-            JTextField7.setText("");
-            JTextField9.setText("");
-            JTextField8.setText("");
-            JTextField10.setText("");
-            JTextField11.setText("");
-            JTextField12.setText("");
-            JComboBox.setSelectedIndex(0);
+                objcon.alteraRegistroJFDB("CLIENTES", dados_cliente.alteraDadosSQLValues(), 
+                        "ID_CLI=" +JTextField1.getText());
+
+                JTextField2.setText("");
+                JTextField3.setText("");
+                JTextField4.setText("");
+                JTextField5.setText("");
+                JTextField6.setText("");
+                JTextField7.setText("");
+                JTextField9.setText("");
+                JTextField8.setText("");
+                JTextField10.setText("");
+                JTextField11.setText("");
+                JTextField12.setText("");
+                JComboBox.setSelectedIndex(0);
         }
         
         operacao = "Alterar";

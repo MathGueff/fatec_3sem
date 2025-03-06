@@ -1,11 +1,10 @@
 package DAO; 
 
-import java.util.List;
+//import java.util.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -29,11 +28,22 @@ public class connectDAO {
 
         //JOptionPane.showMessageDialog(null, "Inicia a classe para conexão com SQL SERVER!");
  
+        /* NO NOTE DA FATEC
         String caminho = "jdbc:sqlserver://localhost:1433;databaseName=MOV_CONTA_CORRENTE;"
                 + "encrypt=true;trustServerCertificate=true;"; 
         String usuario = "sa";
         String senha = ".";
+        */
+        
+        /* 
+            Em casa
+        */
+        String caminho = "jdbc:sqlserver://localhost:1433;databaseName=MOV_CONTA_CORRENTE;"
+                + "integratedSecurity=true;encrypt=true;trustServerCertificate=true;"; 
 
+        String usuario = "";
+        String senha = "";
+        
         try {
             con = DriverManager.getConnection(caminho, usuario, senha);
             JOptionPane.showMessageDialog(null, "Conectado com sucesso!");
@@ -75,7 +85,7 @@ public class connectDAO {
             stmt = con.createStatement();
             String sql = "UPDATE dbo." + tabela +
                     " SET " + strDados +
-                    " WHERE {" + pesquisaID + "};";
+                    " WHERE " + pesquisaID + ";";
                     
             JOptionPane.showMessageDialog(null, "String de Update: " + sql);
             

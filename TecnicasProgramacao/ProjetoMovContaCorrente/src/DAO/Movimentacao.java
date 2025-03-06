@@ -171,8 +171,8 @@ public class Movimentacao {
             getSqlValue(getCreditoDebito()) + "," + //Debito_credito
             getSqlValue(Integer.toString(getId_his())) + "," + //id_his
             getSqlValue(getCompl_hist()) + "," + //compl
-            getSqlValue(Double.toString(getValor())) + "," +
-            getSqlValue(Double.toString(getSaldo())); //s"aldo
+            getSqlValue(Double.toString(getValor())) + "," + //valor
+            getSqlValue(Double.toString(getSaldo())); //saldo
         return dadosMovimentacao;
     }
      
