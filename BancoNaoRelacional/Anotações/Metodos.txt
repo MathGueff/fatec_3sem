@@ -1,0 +1,5 @@
+skip -> determina quantos documentos serão ignorados (em ordem, ou seja os primeiros n)
+count -> retorna o número de documentos que atendem a consulta
+sort -> determina a ordem em que os documentos aparecem, 
+  sendo campo : 1 em ordem ascendente e campo : -1 em ordem descendente
+limit - > limita o total de documentos que irão aparecer

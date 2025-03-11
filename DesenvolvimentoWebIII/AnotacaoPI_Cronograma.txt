@@ -1,6 +1,11 @@
 - CRUD (Usuários, Reclamação, Comentário, Imagem, Tag, Doença, Notícia, Sintoma, Fonte)
 - Upload de Imagem
+- Login normal
 - Login com redes sociais
 - Filtros 
 - Log
 - Geração de Pontuação
+
+
+IDEIAS FUTURAS
+- Mapa API Google Maps
