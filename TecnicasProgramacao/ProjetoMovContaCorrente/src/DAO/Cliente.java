@@ -24,11 +24,9 @@ public class Cliente {
     private String cidade;
     private String uf;
     private String cep;
-    private String email;
     private boolean status;
     private String telefone;
     private String cnpj;
-    private char sexo;
     private String complemento;
     private String DataNascimento;
     
@@ -37,7 +35,7 @@ public class Cliente {
         //Construtor vazio para criação livre
     }
 
-    public Cliente(int id_cli, String nome, String cpf, String endereco, String numero, String bairro, String cidade, String uf, String cep, String email, String telefone, String cnpj, char sexo, String dataNascimento, String complemento) {
+    public Cliente(int id_cli, String nome, String cpf, String endereco, String numero, String bairro, String cidade, String uf, String cep, String telefone, String cnpj, String dataNascimento, String complemento) {
         this.id_cli = id_cli;
         this.nome = nome;
         this.cpf = cpf;
@@ -47,10 +45,8 @@ public class Cliente {
         this.cidade = cidade;
         this.uf = uf;
         this.cep = cep;
-        this.email = email;
         this.telefone = telefone;
         this.cnpj = cnpj;
-        this.sexo = sexo;
         this.status = true;
         this.DataNascimento = dataNascimento;
         this.complemento = complemento;
@@ -80,13 +76,13 @@ public class Cliente {
     }
 
     public void setComplemento(String complemento) {
-        complemento = complemento.trim();
         if(isStatus()){
             /*
                 Validação do campo
             */
-            if(!complemento.isBlank() && !complemento.isEmpty())
+            if(complemento != null && !complemento.isBlank() && !complemento.isEmpty())
             {
+                complemento = complemento.trim();
                 this.complemento = complemento;
             }
             /*
@@ -103,13 +99,14 @@ public class Cliente {
     }
 
     public void setDataNascimento(String DataNascimento) {
-        DataNascimento = DataNascimento.trim();
+        
         if(isStatus()){
             /*
                 Validação do campo
             */
-            if(!DataNascimento.isBlank() && !DataNascimento.isEmpty())
+            if(DataNascimento != null && !DataNascimento.isBlank() && !DataNascimento.isEmpty())
             {
+                DataNascimento = DataNascimento.trim();
                 this.DataNascimento = DataNascimento;
             }
             /*
@@ -126,18 +123,19 @@ public class Cliente {
     }
 
     public void setNome(String nome) {
-        nome = nome.trim();
+        
         if(isStatus()){
             /*
                 Validação do campo
             */
-            if(nome.isBlank() || nome.isEmpty())
+            if(nome != null && !nome.isBlank() && !nome.isEmpty())
             {
-                JOptionPane.showMessageDialog(null, "Digite seu nome");
+                nome = nome.trim();
+                this.nome = nome;
             }
             else
             { 
-                this.nome = nome;
+                JOptionPane.showMessageDialog(null, "Digite seu nome");
             }
             /*
                 Fim da validação do campo
@@ -153,22 +151,16 @@ public class Cliente {
     }
 
     public void setEndereco(String endereco) {
-        endereco = endereco.trim();
         if(isStatus()){
             /*
                 Validação do campo
             */
-            if(endereco.isBlank() || endereco.isEmpty())
-            {
-                JOptionPane.showMessageDialog(null, "Digite seu endereço");
-            }
-            else if(endereco.length() < 4)
-            {
-                JOptionPane.showMessageDialog(null, "Endereço deve ser maior");
-            }
-            else
-            {
+            if(endereco != null && !endereco.isBlank() && !endereco.isEmpty()){
+                endereco = endereco.trim();
                 this.endereco = endereco;
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Endereço não pode ser vazio");
             }
             /*
                 Fim da validação do campo
@@ -184,13 +176,14 @@ public class Cliente {
     }
 
     public void setNumero(String numero) {
-        numero = numero.trim();
+        
         if(isStatus()){
             /*
                 Validação do campo
             */
-            if(!numero.isBlank() && !numero.isEmpty())
+            if(numero != null && !numero.isBlank() && !numero.isEmpty())
             {
+                numero = numero.trim();
                 this.numero = numero;
             }
             /*
@@ -211,8 +204,9 @@ public class Cliente {
             /*
                 Validação do campo
             */
-            if(!bairro.isBlank() && !bairro.isEmpty())
+            if(bairro != null && !bairro.isBlank() && !bairro.isEmpty())
             {
+                bairro = bairro.trim();
                 this.bairro = bairro;
             }
             /*
@@ -229,8 +223,8 @@ public class Cliente {
     }
 
     public void setCidade(String cidade) {
-        cidade = cidade.trim();
         if(isStatus()){
+            cidade = cidade.trim();
             this.cidade = cidade;
         }
         else{
@@ -243,24 +237,23 @@ public class Cliente {
     }
 
     public void setUf(String uf) {
-        uf = uf.trim();
-        uf = uf.toUpperCase();
-        
         if(isStatus()){
             /*
                 Validação do campo
             */
-            if(uf.isBlank() || uf.isEmpty())
-            {
+            if(uf != null  && !uf.isBlank() && !uf.isEmpty()){
+                uf = uf.trim();
+                uf = uf.toUpperCase();
+                if(AtrValidator.isUf(uf))
+                {
+                    this.uf = uf;
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Estado inválido");
+                }    
+            }
+            else{
                 JOptionPane.showMessageDialog(null, "Escolha um Estado");
-            }
-            else if(AtrValidator.isUf(uf))
-            {
-                this.uf = uf;
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Estado inválido");
             }
             /*
                 Fim da validação do campo
@@ -276,52 +269,26 @@ public class Cliente {
     }
 
     public void setCep(String cep) {
-        cep = cep.trim();
+        
         if(isStatus()){
-            if(cep.isBlank() || cep.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Digite seu CEP");
+            if(cep != null && !cep.isBlank() && !cep.isEmpty()){
+                if(cep.length() ==  8){
+                    cep = cep.trim();
+                    this.cep = cep;
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "CEP inválido"); 
+                }  
             }
             else{
-                this.cep = cep;
+                JOptionPane.showMessageDialog(null, "Digite seu CEP");
             }
         }
         else{
             JOptionPane.showMessageDialog(null, "Para definir o cep a conta deve estar aberta");
         }
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        email = email.trim();
-        if(isStatus()){
-            email = email.trim();
-            /*
-                Validação do campo
-            */
-            if(email.isBlank() || email.isEmpty())
-            {
-                JOptionPane.showMessageDialog(null, "Digite seu email");
-            }
-            else if(email.contains("@") && email.contains(".") && email.length() >= 5) //a@b.c
-            {
-                this.email = email;
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Email inválido");
-            }
-            /*
-                Fim da validação do campo
-            */
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Para definir o email a conta deve estar aberta");
-        }
-    }
-
+    
     public boolean isStatus() {
         return status;
     }
@@ -335,18 +302,19 @@ public class Cliente {
     }
 
     public void setTelefone(String telefone) {
-        telefone = telefone.trim();
+       
         if(isStatus()){
             /*
                 Validação do campo
             */
-            if(!telefone.isBlank() && !telefone.isEmpty())
+            if(telefone != null && !telefone.isBlank() && !telefone.isEmpty())
             {
                 if(telefone.length() != 11)
                 {
                     JOptionPane.showMessageDialog(null, "Tamanho de telefone inválido");
                 }
-                else{
+                else{ 
+                    telefone = telefone.trim();
                     this.telefone = telefone;
                 }
             }
@@ -364,9 +332,9 @@ public class Cliente {
     }
 
     public void setCpf(String cpf) {
-        cpf = cpf.trim();
         if(isStatus()){
-            if(!cpf.isBlank() && !cpf.isEmpty()){
+            if(cpf != null && !cpf.isBlank() && !cpf.isEmpty()){
+                cpf = cpf.trim();   
                if(AtrValidator.isCPF(cpf)){
                     this.cpf = cpf;
                 }
@@ -385,9 +353,9 @@ public class Cliente {
     }
 
     public void setCnpj(String cnpj) {
-        cnpj = cnpj.trim();
         if(isStatus()){
-            if(!cnpj.isBlank() && !cnpj.isEmpty()){
+            if(cnpj != null &&!cnpj.isBlank() && !cnpj.isEmpty()){
+                cnpj = cnpj.trim();
                if(AtrValidator.isCNPJ(cnpj)){
                     this.cnpj = cnpj;
                 }
