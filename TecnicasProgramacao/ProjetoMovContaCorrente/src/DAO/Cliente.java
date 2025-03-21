@@ -4,9 +4,9 @@
  */
 package DAO;
 
-import Validator.AtrValidator;
-import java.util.Arrays;
-import java.util.List;
+import Uteis.DateParser;
+import Validator.CpfCnpjValidator;
+import Validator.UfValidator;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,12 +29,14 @@ public class Cliente {
     private String cnpj;
     private String complemento;
     private String DataNascimento;
+    private boolean validate;
     
     public Cliente(){
         this.status = true;
+        this.validate = true;
         //Construtor vazio para criação livre
     }
-
+    
     public Cliente(int id_cli, String nome, String cpf, String endereco, String numero, String bairro, String cidade, String uf, String cep, String telefone, String cnpj, String dataNascimento, String complemento) {
         this.id_cli = id_cli;
         this.nome = nome;
@@ -48,6 +50,7 @@ public class Cliente {
         this.telefone = telefone;
         this.cnpj = cnpj;
         this.status = true;
+        this.validate = true;
         this.DataNascimento = dataNascimento;
         this.complemento = complemento;
     }
@@ -70,6 +73,19 @@ public class Cliente {
             JOptionPane.showMessageDialog(null, "Para definir um ID a conta deve estar aberta");
         }
     }
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
+    }
+    
+    public void ShowErrorValidateMessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+        setValidate(false);
+    }
     
     public String getComplemento() {
         return complemento;
@@ -90,7 +106,7 @@ public class Cliente {
             */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o complemento a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o complemento a conta deve estar aberta");
         }
     }
 
@@ -99,23 +115,25 @@ public class Cliente {
     }
 
     public void setDataNascimento(String DataNascimento) {
-        
         if(isStatus()){
-            /*
-                Validação do campo
-            */
-            if(DataNascimento != null && !DataNascimento.isBlank() && !DataNascimento.isEmpty())
-            {
+           if(validateDate(DataNascimento)){
                 DataNascimento = DataNascimento.trim();
                 this.DataNascimento = DataNascimento;
             }
-            /*
-                Fim da validação do campo
-            */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o nome a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o nome a conta deve estar aberta");
         }
+    }
+    
+    public boolean validateDate(String date){
+        if(date.length() > 8){
+            date = DateParser.parseDMA(date);
+        }
+        return (date != null 
+            && !date.isBlank() 
+            && !date.isEmpty()
+            && date.length() == 8);
     }
 
     public String getNome() {
@@ -135,14 +153,14 @@ public class Cliente {
             }
             else
             { 
-                JOptionPane.showMessageDialog(null, "Digite seu nome");
+                ShowErrorValidateMessage("Digite seu nome");
             }
             /*
                 Fim da validação do campo
             */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o nome a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o nome a conta deve estar aberta");
         }
     }
 
@@ -160,14 +178,14 @@ public class Cliente {
                 this.endereco = endereco;
             }
             else{
-                JOptionPane.showMessageDialog(null,"Endereço não pode ser vazio");
+                ShowErrorValidateMessage("Endereço não pode ser vazio");
             }
             /*
                 Fim da validação do campo
             */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o endereco a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o endereco a conta deve estar aberta");
         }
     }
 
@@ -191,7 +209,7 @@ public class Cliente {
             */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o número a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o número a conta deve estar aberta");
         }
     }
 
@@ -214,7 +232,7 @@ public class Cliente {
             */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o bairro a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o bairro a conta deve estar aberta");
         }
     }
 
@@ -224,11 +242,16 @@ public class Cliente {
 
     public void setCidade(String cidade) {
         if(isStatus()){
-            cidade = cidade.trim();
-            this.cidade = cidade;
+            if(cidade != null && !cidade.isBlank() && !cidade.isEmpty()){
+                cidade = cidade.trim();
+                this.cidade = cidade;
+            }
+            else{
+                ShowErrorValidateMessage("Digite sua cidade");
+            }
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir a cidade a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir a cidade a conta deve estar aberta");
         }
     }
 
@@ -244,23 +267,23 @@ public class Cliente {
             if(uf != null  && !uf.isBlank() && !uf.isEmpty()){
                 uf = uf.trim();
                 uf = uf.toUpperCase();
-                if(AtrValidator.isUf(uf))
+                if(UfValidator.isUf(uf))
                 {
                     this.uf = uf;
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Estado inválido");
+                    ShowErrorValidateMessage("Estado inválido");
                 }    
             }
             else{
-                JOptionPane.showMessageDialog(null, "Escolha um Estado");
+                ShowErrorValidateMessage("Escolha um Estado");
             }
             /*
                 Fim da validação do campo
             */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o uf a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o Estado, a conta deve estar aberta");
         }
     }
 
@@ -277,15 +300,15 @@ public class Cliente {
                     this.cep = cep;
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "CEP inválido"); 
+                    ShowErrorValidateMessage("CEP inválido");
                 }  
             }
             else{
-                JOptionPane.showMessageDialog(null, "Digite seu CEP");
+                ShowErrorValidateMessage("Digite seu CEP");
             }
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o cep a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o CEP, a conta deve estar aberta");
         }
     }
     
@@ -311,7 +334,7 @@ public class Cliente {
             {
                 if(telefone.length() != 11)
                 {
-                    JOptionPane.showMessageDialog(null, "Tamanho de telefone inválido");
+                    ShowErrorValidateMessage("Tamanho de telefone inválido");
                 }
                 else{ 
                     telefone = telefone.trim();
@@ -323,7 +346,7 @@ public class Cliente {
             */
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o telefone a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir telefone a conta deve estar aberta");
         }
     }
     
@@ -335,16 +358,16 @@ public class Cliente {
         if(isStatus()){
             if(cpf != null && !cpf.isBlank() && !cpf.isEmpty()){
                 cpf = cpf.trim();   
-               if(AtrValidator.isCPF(cpf)){
+               if(CpfCnpjValidator.isCPF(cpf)){
                     this.cpf = cpf;
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Digite um CPF válido");
+                    ShowErrorValidateMessage("Digite um CPF válido");
                 } 
             }
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o CPF a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o CPF a conta deve estar aberta");
         }
     }
 
@@ -356,16 +379,16 @@ public class Cliente {
         if(isStatus()){
             if(cnpj != null &&!cnpj.isBlank() && !cnpj.isEmpty()){
                 cnpj = cnpj.trim();
-               if(AtrValidator.isCNPJ(cnpj)){
+               if(CpfCnpjValidator.isCNPJ(cnpj)){
                     this.cnpj = cnpj;
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Digite um CNPJ válido");
+                    ShowErrorValidateMessage("Digite um CNPJ válido");
                 } 
             }
         }
         else{
-            JOptionPane.showMessageDialog(null, "Para definir o CNPJ a conta deve estar aberta");
+            ShowErrorValidateMessage("Para definir o CNPJ a conta deve estar aberta");
         }
     }
     

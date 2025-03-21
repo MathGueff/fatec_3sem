@@ -4,16 +4,13 @@
  */
 package Validator;
 
-import java.util.Arrays;
 import java.util.InputMismatchException;
-import java.util.List;
 
 /**
  *
  * @author Alunos
  */
-public class AtrValidator {
-    
+public class CpfCnpjValidator {
     public static boolean isCNPJ(String CNPJ) {
         if (CNPJ.equals("00000000000000") || CNPJ.equals("11111111111111") ||
             CNPJ.equals("22222222222222") || CNPJ.equals("33333333333333") ||
@@ -111,45 +108,5 @@ public class AtrValidator {
                 } catch (InputMismatchException erro) {
                 return(false);
             }
-    }
-    
-    public static boolean isUf(String uf){
-        String[] estados = {
-            "AC", // Acre
-            "AL", // Alagoas
-            "AP", // Amapá
-            "AM", // Amazonas
-            "BA", // Bahia
-            "CE", // Ceará
-            "DF", // Distrito Federal
-            "ES", // Espírito Santo
-            "GO", // Goiás
-            "MA", // Maranhão
-            "MT", // Mato Grosso
-            "MS", // Mato Grosso do Sul
-            "MG", // Minas Gerais
-            "PA", // Pará
-            "PB", // Paraíba
-            "PR", // Paraná
-            "PE", // Pernambuco
-            "PI", // Piauí
-            "RJ", // Rio de Janeiro
-            "RN", // Rio Grande do Norte
-            "RS", // Rio Grande do Sul
-            "RO", // Rondônia
-            "RR", // Roraima
-            "SC", // Santa Catarina
-            "SP", // São Paulo
-            "SE", // Sergipe
-            "TO"  // Tocantins
-        };
-        
-        List<String> estadosList = Arrays.asList(estados);
-        
-        if(estadosList.contains(uf)){
-            return true;
-        }
-        
-        return false;
     }
 }

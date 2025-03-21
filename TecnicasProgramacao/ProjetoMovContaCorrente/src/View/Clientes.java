@@ -6,6 +6,7 @@ package View;
 import DAO.Cliente;
 import DAO.connectDAO;
 import javax.swing.JOptionPane;
+import Uteis.DateParser;
 /**
  *
  * @author Alunos
@@ -49,6 +50,7 @@ public class Clientes extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel11 = new javax.swing.JLabel();
+        jInternalFrame1 = new javax.swing.JInternalFrame();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -78,6 +80,8 @@ public class Clientes extends javax.swing.JFrame {
         JTextField12 = new javax.swing.JTextField();
 
         jLabel11.setText("jLabel11");
+
+        jInternalFrame1.setVisible(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -140,11 +144,6 @@ public class Clientes extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 400, -1, -1));
 
         jButton3.setText("Ler");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 400, -1, -1));
 
         JTextField5.setBackground(new java.awt.Color(204, 204, 204));
@@ -272,7 +271,6 @@ public class Clientes extends javax.swing.JFrame {
         //Gravar os dados no objeto cliente c
         String operacao = "Incluir";
         if(operacaoAtivaGlobal.equals(operacao)){
-            //dados_cliente.setId_cli(JTextField1.getText().isBlank() || JTextField1.getText().isEmpty() ? 0 : Integer.parseInt(JTextField1.getText()));
             dados_cliente.setNome(JTextField2.getText());
             dados_cliente.setEndereco(JTextField3.getText());
             dados_cliente.setNumero(JTextField4.getText());
@@ -281,7 +279,10 @@ public class Clientes extends javax.swing.JFrame {
             dados_cliente.setCep(JTextField7.getText());
             dados_cliente.setTelefone(JTextField9.getText());
             dados_cliente.setComplemento(JTextField11.getText());
-            dados_cliente.setDataNascimento(JTextField12.getText());
+            if(dados_cliente.validateDate(JTextField12.getText()))
+            {
+                dados_cliente.setDataNascimento(DateParser.parseAMD(JTextField12.getText()));
+            }
             
             switch (JTextField10.getText().length()) {
                 case 11:
@@ -298,15 +299,19 @@ public class Clientes extends javax.swing.JFrame {
             if(JComboBox.getSelectedItem().toString() != "ESTADO"){
                 dados_cliente.setUf(JComboBox.getSelectedItem().toString());
             }
-            JOptionPane.showMessageDialog(null, "Cadastrado");
             
-            //Inserção no banco de dados
-            connectDAO objcon = new connectDAO();
-            objcon.connectDB();
-            objcon.insereRegistroJFBD("CLIENTES", dados_cliente.dadosSQLValues());
-            ClearFormInputs();
+            if(dados_cliente.isValidate()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.insereRegistroJFBD("CLIENTES", dados_cliente.dadosSQLValues());
+                ClearFormInputs();
+            }
+            else{
+                dados_cliente.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                dados_cliente.setValidate(true);
+            }
         }
-        
         operacao = "Alteração";
         if(operacaoAtivaGlobal.equals((operacao))){
             connectDAO objcon = new connectDAO();
@@ -320,7 +325,10 @@ public class Clientes extends javax.swing.JFrame {
             dados_cliente.setCep(JTextField7.getText());
             dados_cliente.setTelefone(JTextField9.getText());
             dados_cliente.setComplemento(JTextField11.getText());
-            dados_cliente.setDataNascimento(JTextField12.getText());
+            if(dados_cliente.validateDate(JTextField12.getText()))
+            {
+                dados_cliente.setDataNascimento(DateParser.parseAMD(JTextField12.getText()));
+            }
             
             //Verificando se o campo preenchido foi CPF ou CNPJ
             switch (JTextField10.getText().length()) {
@@ -371,7 +379,11 @@ public class Clientes extends javax.swing.JFrame {
                 JTextField10.setText(dados_cliente.getCnpj());
             }
             JTextField11.setText(dados_cliente.getComplemento());
-            JTextField12.setText(dados_cliente.getDataNascimento());
+            
+            if(dados_cliente.validateDate(dados_cliente.getDataNascimento())){
+                JTextField12.setText(DateParser.parseDMA(dados_cliente.getDataNascimento()));
+            }
+            
             JComboBox.setSelectedItem(dados_cliente.getUf());
             
             //Mostrando os campos para que possam ser alterados
@@ -381,10 +393,6 @@ public class Clientes extends javax.swing.JFrame {
             SetFormVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Botão de Limpar
@@ -443,6 +451,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

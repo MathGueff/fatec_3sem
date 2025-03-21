@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import Validator.AtrValidator;
+import Validator.UfValidator;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -137,7 +137,7 @@ public class Agencia {
         {
             JOptionPane.showMessageDialog(null, "Escolha um estado");
         }
-        else if(AtrValidator.isUf(uf))
+        else if(UfValidator.isUf(uf))
         {
             this.uf = uf;
         }
