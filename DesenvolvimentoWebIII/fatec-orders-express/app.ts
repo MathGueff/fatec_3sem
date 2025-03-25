@@ -8,6 +8,7 @@ const app = express();
 //Configura a aplicação para receber JSON no body das req
 app.use(express.json())
 
+//Produtos
 const products = [
     {
         id: 1,
@@ -56,16 +57,122 @@ app.post("/product", (req : Request, res : Response) => {
     res.status(201).send("Produto Cadastrado com sucesso")
 });
 
-app.delete("/product:id", (req : Request, res : Response) => {
-    const reqId = Number(req.params.id)
-    const product = products.filter((product) => {
-        product.id === reqId
+app.delete("/product/:id", (req : Request, res : Response) => {
+    const product = products.find((product) =>{
+        return product.id === Number(req.params.id)
     })
+
     if(!product){
+        res.status(404).json("Não foi possível encontrar o produto com ID");
         return;
     }
 
+    if(removeProduct(product)){
+        res.status(200).json(product);
+    }
 });
+
+app.put("/product/:id", (req : Request, res : Response) => {
+    const product = products.find((product) =>{
+        return product.id === Number(req.params.id)
+    })
+
+    if(!product){
+        res.status(404).json("Não foi possível encontrar o produto com ID")
+    }
+
+    if(removeProduct(product)){
+        const updatedProduct = req.body;
+        products.push(updatedProduct)
+        res.status(200).json("Produto atualizado com sucesso")
+    }
+});
+
+function removeProduct(product : any){
+    const index = products.indexOf(product)
+    return products.splice(index,1)
+}
+
+//Cliente
+
+const clients = [
+    {
+        id: 1,
+        name: 'Feijão Carioca',
+        document : '123',
+        zipCode: '123',
+        phone : '123',
+        email: 'a@gmail.com'
+    },
+    {
+        id: 2,
+        name: 'Arroz',
+        document : '123',
+        zipCode: '123',
+        phone : '123',
+        email: 'a@gmail.com'
+    },
+]
+
+//Define método Get que responde no path /client/:id (para exibir o produto específico)
+app.get("/client/:id", (req : Request, res : Response) => {
+    const client = clients.find((client) =>{
+        return client.id === Number(req.params.id)
+    })
+    if(!client){
+        res.status(404).send();
+        return;
+    }
+    res.status(200).json(client);
+});
+
+//Define método Get que responde no path /client (para exibir todos os produtos)
+app.get("/client", (req : Request, res : Response) => {
+    res.status(200).json(clients);
+});
+
+app.post("/client", (req : Request, res : Response) => {
+    const client = req.body;
+    clients.push(client);
+    res.status(201).send("Cliente Cadastrado com sucesso")
+});
+
+app.delete("/client/:id", (req : Request, res : Response) => {
+    const client = clients.find((client) =>{
+        return client.id === Number(req.params.id)
+    })
+
+    if(!client){
+        res.status(404).json("Não foi possível encontrar o cliente com ID");
+        return;
+    }
+
+    if(removeclient(client)){
+        res.status(200).json(client);
+    }
+});
+
+app.put("/client/:id", (req : Request, res : Response) => {
+    const client = clients.find((client) =>{
+        return client.id === Number(req.params.id)
+    })
+
+    if(!client){
+        res.status(404).json("Não foi possível encontrar o cliente com ID")
+    }
+
+    if(removeclient(client)){
+        const updatedclient = req.body;
+        clients.push(updatedclient)
+        res.status(200).json("Cliente atualizado com sucesso")
+    }
+});
+
+
+function removeclient(product : any){
+    const index = products.indexOf(product)
+    return products.splice(index,1)
+}
 
 //Inicia apliacação na porta 3000
 app.listen(3000, () => {
