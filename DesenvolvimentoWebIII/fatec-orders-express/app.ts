@@ -5,6 +5,7 @@ const express = require('express');
 
 //Criação da aplicação
 const app = express();
+
 //Configura a aplicação para receber JSON no body das req
 app.use(express.json())
 
@@ -40,7 +41,7 @@ app.get("/product/:id", (req : Request, res : Response) => {
         return product.id === Number(req.params.id)
     })
     if(!product){
-        res.status(404).send();
+        res.status(404).json("Não foi possível encontrar um produto com o ID");
         return;
     }
     res.status(200).json(product);
@@ -51,47 +52,54 @@ app.get("/product", (req : Request, res : Response) => {
     res.status(200).json(products);
 });
 
+//Define método Post que responde no path /product/ (para inserir o produto no body)
 app.post("/product", (req : Request, res : Response) => {
     const product = req.body;
     products.push(product);
     res.status(201).send("Produto Cadastrado com sucesso")
 });
 
+//Define método Delete que responde no path /product/:id (para excluir o produto com id especificado)
 app.delete("/product/:id", (req : Request, res : Response) => {
-    const product = products.find((product) =>{
-        return product.id === Number(req.params.id)
-    })
+    const productId = Number(req.params.id);
+    
+    const index = products.findIndex((product) => product.id === productId)
 
-    if(!product){
+    if(index === -1){
         res.status(404).json("Não foi possível encontrar o produto com ID");
         return;
     }
 
-    if(removeProduct(product)){
-        res.status(200).json(product);
-    }
+    const removedProduct = products.splice(index,1)
+    res.status(200).json(removedProduct);
 });
 
+//Define método Put que responde no path /product/:id (para editar o produto com id especificado)
 app.put("/product/:id", (req : Request, res : Response) => {
-    const product = products.find((product) =>{
-        return product.id === Number(req.params.id)
-    })
+    const productId = Number(req.params.id);
+    
+    const index = products.findIndex((product) => product.id === productId)
 
-    if(!product){
+    //Caso não encontre um produto (retorna -1 por padrão da função)
+    if(index === -1){
         res.status(404).json("Não foi possível encontrar o produto com ID")
+        return;
     }
 
-    if(removeProduct(product)){
-        const updatedProduct = req.body;
-        products.push(updatedProduct)
-        res.status(200).json("Produto atualizado com sucesso")
+    const updatedProduct = req.body;
+    products[index] = {
+        id: productId,
+        name: updatedProduct.name,
+        brand: updatedProduct.brand,
+        barCode: updatedProduct.barCode,
+        supplier: updatedProduct.supplier ,
+        stockId: updatedProduct.stockId,
+        price: updatedProduct.price,
+        weight: updatedProduct.weight,
+        measureUnit: updatedProduct.measureUnit 
     }
+    res.status(200).json("Produto atualizado com sucesso");
 });
-
-function removeProduct(product : any){
-    const index = products.indexOf(product)
-    return products.splice(index,1)
-}
 
 //Cliente
 
@@ -120,7 +128,7 @@ app.get("/client/:id", (req : Request, res : Response) => {
         return client.id === Number(req.params.id)
     })
     if(!client){
-        res.status(404).send();
+        res.status(404).json("Não foi possível encontrar um cliente com esse ID");
         return;
     }
     res.status(200).json(client);
@@ -138,41 +146,41 @@ app.post("/client", (req : Request, res : Response) => {
 });
 
 app.delete("/client/:id", (req : Request, res : Response) => {
-    const client = clients.find((client) =>{
-        return client.id === Number(req.params.id)
-    })
+    const clientId = Number(req.params.id);
+    
+    const index = clients.findIndex((client) => client.id === clientId)
 
-    if(!client){
+    if(index === -1){
         res.status(404).json("Não foi possível encontrar o cliente com ID");
         return;
     }
 
-    if(removeclient(client)){
-        res.status(200).json(client);
-    }
+    const removedClient = clients.splice(index,1)
+    res.status(200).json(removedClient);
 });
 
 app.put("/client/:id", (req : Request, res : Response) => {
-    const client = clients.find((client) =>{
-        return client.id === Number(req.params.id)
-    })
+    const clientId = Number(req.params.id);
+    
+    const index = clients.findIndex((client) => client.id === clientId)
 
-    if(!client){
+    //Caso não encontre um cliente (retorna -1 por padrão da função)
+    if(index === -1){
         res.status(404).json("Não foi possível encontrar o cliente com ID")
+        return;
     }
 
-    if(removeclient(client)){
-        const updatedclient = req.body;
-        clients.push(updatedclient)
-        res.status(200).json("Cliente atualizado com sucesso")
+    const updatedClient = req.body;
+    clients[index] = {
+        id : clientId,
+        name : updatedClient.name,
+        document : updatedClient.document,
+        zipCode : updatedClient.zipCode,
+        phone :updatedClient.phone,
+        email :updatedClient.email,
     }
+    res.status(200).json("Cliente atualizado com sucesso");
 });
-
-
-function removeclient(product : any){
-    const index = products.indexOf(product)
-    return products.splice(index,1)
-}
 
 //Inicia apliacação na porta 3000
 app.listen(3000, () => {
