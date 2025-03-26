@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-
-//Importação da biblioteca Express
-const express = require('express');
+import express from "express"
 
 //Criação da aplicação
 const app = express();
@@ -49,6 +47,7 @@ app.get("/product/:id", (req : Request, res : Response) => {
 
 //Define método Get que responde no path /product (para exibir todos os produtos)
 app.get("/product", (req : Request, res : Response) => {
+    console.log(req.query);
     res.status(200).json(products);
 });
 
