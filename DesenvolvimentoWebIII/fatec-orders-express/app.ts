@@ -63,7 +63,7 @@ app.delete("/product/:id", (req : Request, res : Response) => {
     const productId = Number(req.params.id);
     
     const index = products.findIndex((product) => product.id === productId)
-
+    
     if(index === -1){
         res.status(404).json("Não foi possível encontrar o produto com ID");
         return;
