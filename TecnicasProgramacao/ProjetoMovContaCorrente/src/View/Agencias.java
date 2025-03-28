@@ -21,6 +21,9 @@ public class Agencias extends javax.swing.JFrame {
     }
     String operacaoAtivaGlobal = "Nenhum";
     
+    
+    Agencia agencia_jframe = new Agencia();
+    
     public Agencias(String operacaoAtiva){
         initComponents();
         operacaoAtivaGlobal = operacaoAtiva;
@@ -50,6 +53,9 @@ public class Agencias extends javax.swing.JFrame {
         }
         operacao = "Alterar";
         if(operacaoAtiva.equals(operacao)){
+            connectDAO objcon = new connectDAO();
+            //agencia_jframe = objcon.pesquisaClienteJFDB("CLIENTES", "ID_CLI = '" + JTextField1.getText() + "'");
+            
             jLabel1.setVisible(true);
             jLabel2.setVisible(false);
             jLabel3.setVisible(false);
@@ -73,8 +79,6 @@ public class Agencias extends javax.swing.JFrame {
             jButton1.setText(operacaoAtivaGlobal);;
         }
     }
-    
-    Agencia agencia_jframe = new Agencia();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -243,6 +247,40 @@ public class Agencias extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void SetFormVisible(Boolean bool){
+        jLabel1.setVisible(!bool);
+        jLabel2.setVisible(bool);
+        jLabel3.setVisible(bool);
+        jLabel4.setVisible(bool);
+        jLabel5.setVisible(bool);
+        jLabel6.setVisible(bool);
+        jLabel7.setVisible(bool);
+        jLabel8.setVisible(bool);
+        jLabel11.setVisible(bool);
+        jLabel12.setVisible(bool);
+        JTextField1.setVisible(!bool);
+        JTextField2.setVisible(bool);
+        JTextField3.setVisible(bool);
+        JTextField4.setVisible(bool);
+        JTextField5.setVisible(bool);
+        JTextField6.setVisible(bool);
+        JTextField7.setVisible(bool);
+        JTextField8.setVisible(bool);
+        JTextField11.setVisible(bool);
+    }
+    
+    private void ClearFormInputs(){
+        JTextField1.setText("");
+        JTextField2.setText("");
+        JTextField3.setText("");
+        JTextField4.setText("");
+        JTextField5.setText("");
+        JTextField6.setText("");
+        JTextField7.setText("");
+        JTextField8.setText("");
+        JTextField11.setText("");
+    }
+    
     private void JTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JTextField2ActionPerformed

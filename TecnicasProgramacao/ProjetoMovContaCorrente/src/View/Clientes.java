@@ -364,33 +364,36 @@ public class Clientes extends javax.swing.JFrame {
             connectDAO objcon = new connectDAO();
             dados_cliente = objcon.pesquisaClienteJFDB("CLIENTES", "ID_CLI = '" + JTextField1.getText() + "'");
             
-            JTextField2.setText(dados_cliente.getNome());
-            JTextField3.setText(dados_cliente.getEndereco());
-            JTextField4.setText(dados_cliente.getNumero());
-            JTextField5.setText(dados_cliente.getBairro());
-            JTextField6.setText(dados_cliente.getCidade());
-            JTextField7.setText(dados_cliente.getCep());
-            JTextField9.setText(dados_cliente.getTelefone());
-            
-            if(dados_cliente.getCpf() != null){
-                JTextField10.setText(dados_cliente.getCpf());
+            if(dados_cliente != null){
+                JTextField2.setText(dados_cliente.getNome());
+                JTextField3.setText(dados_cliente.getEndereco());
+                JTextField4.setText(dados_cliente.getNumero());
+                JTextField5.setText(dados_cliente.getBairro());
+                JTextField6.setText(dados_cliente.getCidade());
+                JTextField7.setText(dados_cliente.getCep());
+                JTextField9.setText(dados_cliente.getTelefone());
+
+                if(dados_cliente.getCpf() != null){
+                    JTextField10.setText(dados_cliente.getCpf());
+                }
+                else if(dados_cliente.getCnpj() != null){
+                    JTextField10.setText(dados_cliente.getCnpj());
+                }
+                JTextField11.setText(dados_cliente.getComplemento());
+
+                if(dados_cliente.validateDate(dados_cliente.getDataNascimento())){
+                    JTextField12.setText(DateParser.parseDMA(dados_cliente.getDataNascimento()));
+                }
+
+                JComboBox.setSelectedItem(dados_cliente.getUf());
+
+                //Mostrando os campos para que possam ser alterados
+
+                jButton1.setText("Alterar");
+                operacaoAtivaGlobal = "Alteração";
+                SetFormVisible(true);
             }
-            else if(dados_cliente.getCnpj() != null){
-                JTextField10.setText(dados_cliente.getCnpj());
-            }
-            JTextField11.setText(dados_cliente.getComplemento());
-            
-            if(dados_cliente.validateDate(dados_cliente.getDataNascimento())){
-                JTextField12.setText(DateParser.parseDMA(dados_cliente.getDataNascimento()));
-            }
-            
-            JComboBox.setSelectedItem(dados_cliente.getUf());
-            
-            //Mostrando os campos para que possam ser alterados
-            
-            jButton1.setText("Alterar");
-            operacaoAtivaGlobal = "Alteração";
-            SetFormVisible(true);
+            return;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -121,6 +121,7 @@ public class connectDAO {
                     dados = stmt.executeQuery(sql);
                     if(dados.next() == false){
                         JOptionPane.showMessageDialog(null, "Nenhum registro foi encontrado para essa pesquisa");
+                        return null;
                     }
                     else{
                         clientesReturn.setId_cli(dados.getInt(1));
