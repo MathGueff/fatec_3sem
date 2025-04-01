@@ -52,6 +52,7 @@ app.get("/product/:id", (req : Request, res : Response) => {
 
 //Define método Get que responde no path /product (para exibir todos os produtos)
 app.get("/product", (req : Request, res : Response) => {
+    console.log(req.query)
     let filteredProduct : any = [];
 
     //Retorna o array inteiro caso nenhum query param seja passado
@@ -63,6 +64,8 @@ app.get("/product", (req : Request, res : Response) => {
     //Fazendo a filtragem com todos os filtros existentes (ao mesmo tempo, para evitar sobrescrita entre os filtros)
     filteredProduct = products.filter((product) => {
         let isValid : boolean = true;
+        const {name, brand, supplier, stockId} = req.query
+
         if(typeof(req.query.name) == "string"){
             const nameFilter = req.query.name.trim().toLowerCase(); 
             isValid = isValid && product.name.trim().toLowerCase().includes(nameFilter);
@@ -286,14 +289,11 @@ app.put("/client/:id", (req : Request, res : Response) => {
         return;
     }
 
-    const updatedClient = req.body;
+    const {name, document, zipCode, phone, email} = req.body
+    const updatedClient = {name, document, zipCode, phone, email};
     clients[index] = {
         id : clientId,
-        name : updatedClient.name,
-        document : updatedClient.document,
-        zipCode : updatedClient.zipCode,
-        phone :updatedClient.phone,
-        email :updatedClient.email,
+        ...updatedClient
     }
     res.status(200).json({
         "message" : "Cliente atualizado com sucesso",
@@ -424,15 +424,11 @@ app.put("/employee/:id", (req : Request, res : Response) => {
         return;
     }
 
-    const updatedemployee = req.body;
+    const {name, document, position, workingHours, salary, zipCode} = req.body
+    const updatedEmployee = {name, document, position, workingHours, salary, zipCode};
     employees[index] = {
         id: employeeId,
-        name: updatedemployee.name,
-        document : updatedemployee.document,
-        position: updatedemployee.position,
-        workingHours : updatedemployee.workingHours,
-        salary: updatedemployee.salary,
-        zipCode: updatedemployee.zipCode
+        ...updatedEmployee
     }
     res.status(200).json({
         "message" : "Funcionário atualizado com sucesso",
