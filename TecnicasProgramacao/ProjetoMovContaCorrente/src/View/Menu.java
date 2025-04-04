@@ -73,6 +73,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem13.setText("Excluir");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem13);
 
         jMenuBar1.add(jMenu1);
@@ -284,6 +289,12 @@ public class Menu extends javax.swing.JFrame {
         Usuarios acesso_usuarios = new Usuarios(operacao);
         acesso_usuarios.setVisible(true);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        String operacao = "Excluir";
+        Clientes acesso_cliente = new Clientes(operacao);
+        acesso_cliente.setVisible(true);
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     /**
      * @param args the command line arguments

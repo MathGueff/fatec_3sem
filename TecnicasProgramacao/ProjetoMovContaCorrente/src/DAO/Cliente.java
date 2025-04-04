@@ -116,7 +116,7 @@ public class Cliente {
 
     public void setDataNascimento(String DataNascimento) {
         if(isStatus()){
-           if(validateDate(DataNascimento)){
+           if(DataNascimento != null && validateDate(DataNascimento)){
                 DataNascimento = DataNascimento.trim();
                 this.DataNascimento = DataNascimento;
             }

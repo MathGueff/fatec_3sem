@@ -24,6 +24,7 @@ public class Agencia {
     private String uf;
     private String cep;
     private String telefone;
+    private boolean validate = true;
     
     public Agencia(){
         //Construtor vazio para o objeto Agencia
@@ -55,6 +56,19 @@ public class Agencia {
         else{
             this.num_agencia = num_agencia;
         }
+    }
+    
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
+    }
+    
+    public void ShowErrorValidateMessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+        setValidate(false);
     }
 
     public String getNome() {

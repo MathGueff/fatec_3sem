@@ -20,6 +20,7 @@ public class Clientes extends javax.swing.JFrame {
         initComponents();
     }
     String operacaoAtivaGlobal = "Nenhum";
+    
     public Clientes(String operacaoAtiva){
         initComponents();
         operacaoAtivaGlobal = operacaoAtiva;
@@ -32,7 +33,12 @@ public class Clientes extends javax.swing.JFrame {
         operacao = "Alterar";
         if(operacaoAtiva.equals(operacao)){
             SetFormVisible(false);
-            jButton1.setText("Pesquisar");;
+            jButton1.setText("Pesquisar");
+        }
+        operacao = "Excluir";
+        if(operacaoAtiva.equals(operacao)){
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
         }
     }
     
@@ -62,7 +68,6 @@ public class Clientes extends javax.swing.JFrame {
         JTextField3 = new javax.swing.JTextField();
         JTextField4 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         JTextField5 = new javax.swing.JTextField();
         JTextField6 = new javax.swing.JTextField();
         JTextField7 = new javax.swing.JTextField();
@@ -143,9 +148,6 @@ public class Clientes extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 400, -1, -1));
 
-        jButton3.setText("Ler");
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 400, -1, -1));
-
         JTextField5.setBackground(new java.awt.Color(204, 204, 204));
         JTextField5.setForeground(new java.awt.Color(51, 51, 51));
         JTextField5.setToolTipText("");
@@ -187,7 +189,7 @@ public class Clientes extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 400, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -343,19 +345,19 @@ public class Clientes extends javax.swing.JFrame {
                    identificacao = "cnpj";
                    break;
                }
-                //Definindo o valor do comboBox estado
-               dados_cliente.setUf(JComboBox.getSelectedItem().toString());
-            
-               //ALteração no banco de dados
-                objcon.alteraRegistroJFDB("CLIENTES", dados_cliente.alteraDadosSQLValues(), 
-                        "ID_CLI=" +JTextField1.getText());
+            //Definindo o valor do comboBox estado
+            dados_cliente.setUf(JComboBox.getSelectedItem().toString());
 
-                //Limpando todos os textos
-                ClearFormInputs();
-                SetFormVisible(false);
-                jButton1.setText("Pesquisar");
-                operacaoAtivaGlobal = "Alterar";
-                return;
+            //ALteração no banco de dados
+            objcon.alteraRegistroJFDB("CLIENTES", dados_cliente.alteraDadosSQLValues(), 
+                "ID_CLI=" +JTextField1.getText());
+
+            //Limpando todos os textos
+            ClearFormInputs();
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
+            operacaoAtivaGlobal = "Alterar";
+            return;
         }
         
         operacao = "Alterar";
@@ -381,7 +383,7 @@ public class Clientes extends javax.swing.JFrame {
                 }
                 JTextField11.setText(dados_cliente.getComplemento());
 
-                if(dados_cliente.validateDate(dados_cliente.getDataNascimento())){
+                if(dados_cliente.getDataNascimento() != null && dados_cliente.validateDate(dados_cliente.getDataNascimento())){
                     JTextField12.setText(DateParser.parseDMA(dados_cliente.getDataNascimento()));
                 }
 
@@ -392,6 +394,81 @@ public class Clientes extends javax.swing.JFrame {
                 jButton1.setText("Alterar");
                 operacaoAtivaGlobal = "Alteração";
                 SetFormVisible(true);
+            }
+            return;
+        }
+        
+        operacao = "Exclusão";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            connectDAO objcon = new connectDAO();
+            objcon.excluiRegistroJFDB("CLIENTES","ID_CLI=" +JTextField1.getText());
+
+            //Limpando todos os textos
+            ClearFormInputs();
+            SetFormVisible(false);
+            JTextField1.setEditable(true);
+            JTextField2.setEditable(true);
+            JTextField3.setEditable(true);
+            JTextField4.setEditable(true);
+            JTextField5.setEditable(true);
+            JTextField6.setEditable(true);
+            JTextField7.setEditable(true);
+            JTextField9.setEditable(true);
+            JTextField10.setEditable(true);
+            JTextField11.setEditable(true);
+            JTextField12.setEditable(true);
+            JComboBox.setEnabled(true);
+            jButton1.setText("Pesquisar");
+            operacaoAtivaGlobal = "Excluir";
+            return;
+        }
+        
+        operacao = "Excluir";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            //Pesquisa o cliente com o ID especificado
+            connectDAO objcon = new connectDAO();
+            dados_cliente = objcon.pesquisaClienteJFDB("CLIENTES", "ID_CLI = '" + JTextField1.getText() + "'");
+            
+            if(dados_cliente != null){
+                JTextField2.setText(dados_cliente.getNome());
+                JTextField3.setText(dados_cliente.getEndereco());
+                JTextField4.setText(dados_cliente.getNumero());
+                JTextField5.setText(dados_cliente.getBairro());
+                JTextField6.setText(dados_cliente.getCidade());
+                JTextField7.setText(dados_cliente.getCep());
+                JTextField9.setText(dados_cliente.getTelefone());
+
+                if(dados_cliente.getCpf() != null){
+                    JTextField10.setText(dados_cliente.getCpf());
+                }
+                else if(dados_cliente.getCnpj() != null){
+                    JTextField10.setText(dados_cliente.getCnpj());
+                }
+                JTextField11.setText(dados_cliente.getComplemento());
+
+                if(dados_cliente.getDataNascimento() != null && dados_cliente.validateDate(dados_cliente.getDataNascimento())){
+                    JTextField12.setText(DateParser.parseDMA(dados_cliente.getDataNascimento()));
+                }
+
+                JComboBox.setSelectedItem(dados_cliente.getUf());
+
+                //Mostrando os campos para que possam ser alterados
+
+                jButton1.setText("Excluir");
+                operacaoAtivaGlobal = "Exclusão";
+                SetFormVisible(true);
+                JTextField1.setEditable(false);
+                JTextField2.setEditable(false);
+                JTextField3.setEditable(false);
+                JTextField4.setEditable(false);
+                JTextField5.setEditable(false);
+                JTextField6.setEditable(false);
+                JTextField7.setEditable(false);
+                JTextField9.setEditable(false);
+                JTextField10.setEditable(false);
+                JTextField11.setEditable(false);
+                JTextField12.setEditable(false);
+                JComboBox.setEnabled(false);
             }
             return;
         }
@@ -453,7 +530,6 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JTextField JTextField9;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
