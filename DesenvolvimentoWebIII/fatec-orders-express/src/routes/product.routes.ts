@@ -1,8 +1,9 @@
 import express from 'express'
 import { Request, Response } from "express";
 import { IProductListFilters } from '../../IProduct';
+import { listProducts } from '../controllers/product.controller'
 //Utilizamos para implementar as rotas de produto
-const router = express.Router();
+const router = express.Router()
 
 const products = [
     {
@@ -30,7 +31,7 @@ const products = [
 ]
 
 //Define método Get que responde no path /product/:id (para exibir o produto específico)
-router.get("/product/:id", (req: Request, res: Response) => {
+router.get("/:id", (req: Request, res: Response) => {
     const product = products.find((product) => {
         return product.id === Number(req.params.id)
     })
@@ -45,47 +46,27 @@ router.get("/product/:id", (req: Request, res: Response) => {
 });
 
 //Define método Get que responde no path /product (para exibir todos os produtos)
-router.get("/product", (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
 
     const productFilters = req.query as unknown as IProductListFilters
-    //Usando alias com name : nameFilter
-    const {
-        name: nameFilter,
-        brand: brandFilter,
-        supplier: supplierFilter,
-        stockId: stockIdFilter } = productFilters
-
-    //Fazendo a filtragem com todos os filtros existentes (ao mesmo tempo, para evitar sobrescrita entre os filtros)
-    const foundProducts = products.filter(({ name, brand, supplier, stockId }) => {
-        let found : boolean = true
-        if (!(nameFilter || brandFilter || supplierFilter || stockIdFilter)) 
-            return true;
-        if (nameFilter && !name.toUpperCase().includes(nameFilter?.toUpperCase())) 
-            found = false;
-        if (brandFilter && !brand.toUpperCase().includes(brandFilter?.toUpperCase())) 
-            found = false;
-        if (supplierFilter && !supplier.toUpperCase().includes(supplierFilter?.toUpperCase())) 
-            found = false;
-        if (stockIdFilter && stockId !== stockIdFilter) 
-            found = false;
-        return found;
-    })
+    
+    const products =  listProducts(productFilters)
 
     //Caso nenhum produto seja encontrado com os filtros passados, retorna 404
-    if (foundProducts.length === 0) {
+    if (products.length === 0) {
         res.status(404).json({
             "error": true,
             "message": "Não foi possível encontrar nenhum produto com o filtro"
         })
         return;
     }
-
+    
     //Retorna o array filtrado
-    res.status(200).json(foundProducts)
+    res.status(200).json(products)
 });
 
 //Define método Post que responde no path /product/ (para inserir o produto no body)
-router.post("/product", (req: Request, res: Response) => {
+router.post("/", (req: Request, res: Response) => {
     const newProduct = req.body;
     //Verificando se no array há um produto com o id igual ao do novo produto
     const existProduct = products.find((product) => product.id === Number(newProduct.id));
@@ -104,7 +85,7 @@ router.post("/product", (req: Request, res: Response) => {
 });
 
 //Define método Delete que responde no path /product/:id (para excluir o produto com id especificado)
-router.delete("/product/:id", (req: Request, res: Response) => {
+router.delete("/:id", (req: Request, res: Response) => {
     const productId = Number(req.params.id);
 
     const index = products.findIndex((product) => product.id === productId)
@@ -125,7 +106,7 @@ router.delete("/product/:id", (req: Request, res: Response) => {
 });
 
 //Define método Put que responde no path /product/:id (para editar o produto com id especificado)
-router.put("/product/:id", (req: Request, res: Response) => {
+router.put("/:id", (req: Request, res: Response) => {
     const productId = Number(req.params.id);
 
     const index = products.findIndex((product) => product.id === productId)
