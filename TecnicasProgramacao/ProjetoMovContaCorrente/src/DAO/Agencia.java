@@ -30,7 +30,7 @@ public class Agencia {
         //Construtor vazio para o objeto Agencia
     }
 
-    public Agencia(String num_agencia, String nome, String endereco, String numero, String complemento, String bairro, String cidade, String uf, String cep, String telefone) {
+    public Agencia(String num_agencia, String nome, String endereco, String numero, String complemento, String bairro, String cidade, String uf, String cep, String telefone, boolean validate) {
         this.num_agencia = num_agencia;
         this.nome = nome;
         this.endereco = endereco;
@@ -41,6 +41,7 @@ public class Agencia {
         this.uf = uf;
         this.cep = cep;
         this.telefone = telefone;
+        this.validate = true;
     }
 
     public String getNum_agencia() {
@@ -48,12 +49,12 @@ public class Agencia {
     }
 
     public void setNum_agencia(String num_agencia) {
-        num_agencia = num_agencia.trim();
-        if(num_agencia.isBlank() || num_agencia.isEmpty())
+        if(num_agencia == null || num_agencia.isBlank() || num_agencia.isEmpty() || num_agencia == "0")
         {
-            JOptionPane.showMessageDialog(null, "Digite o número da agência");
+            ShowErrorValidateMessage("Digite o número da agência");
         }
         else{
+            num_agencia = num_agencia.trim();
             this.num_agencia = num_agencia;
         }
     }
@@ -76,12 +77,12 @@ public class Agencia {
     }
 
     public void setNome(String nome) {
-        nome = nome.trim();
-         if(nome.isBlank() || nome.isEmpty())
+        if(nome == null || nome.isBlank() || nome.isEmpty())
         {
-            JOptionPane.showMessageDialog(null, "Digite seu nome");
+            ShowErrorValidateMessage("Digite o nome");
         }
         else{
+            nome = nome.trim();
             this.nome = nome;
         }
     }
@@ -91,12 +92,12 @@ public class Agencia {
     }
 
     public void setEndereco(String endereco) {
-        endereco = endereco.trim();
-         if(endereco.isBlank() || endereco.isEmpty())
+        if(endereco == null ||endereco.isBlank() || endereco.isEmpty())
         {
-            JOptionPane.showMessageDialog(null, "Digite o endereço");
+            ShowErrorValidateMessage("Digite o Endereço");
         }
         else{
+            endereco = endereco.trim();
             this.endereco = endereco;
         }
     }
@@ -106,8 +107,10 @@ public class Agencia {
     }
 
     public void setNumero(String numero) {
-        numero = numero.trim();
-        this.numero = numero;
+        if(numero != null && !numero.isBlank() && !numero.isEmpty()){
+            numero = numero.trim();
+            this.numero = numero;
+        }
     }
 
     public String getComplemento() {
@@ -115,8 +118,10 @@ public class Agencia {
     }
 
     public void setComplemento(String complemento) {
-        complemento = complemento.trim();
-        this.complemento = complemento;
+        if(complemento != null && !complemento.isBlank() && !complemento.isEmpty()){
+            complemento = complemento.trim();
+            this.complemento = complemento;
+        }
     }
 
     public String getBairro() {
@@ -124,8 +129,10 @@ public class Agencia {
     }
 
     public void setBairro(String bairro) {
-        bairro = bairro.trim();
-        this.bairro = bairro;
+        if(bairro != null && !bairro.isBlank() && !bairro.isEmpty()){
+            bairro = bairro.trim();
+            this.bairro = bairro;
+        }
     }
 
     public String getCidade() {
@@ -133,8 +140,12 @@ public class Agencia {
     }
 
     public void setCidade(String cidade) {
-        cidade = cidade.trim();
-        this.cidade = cidade;
+        if(cidade == null || cidade.isBlank() || cidade.isEmpty())
+            ShowErrorValidateMessage("Digite a cidade");
+        else{
+            cidade = cidade.trim();
+            this.cidade = cidade;
+        }
     }
 
     public String getUf() {
@@ -142,23 +153,25 @@ public class Agencia {
     }
 
     public void setUf(String uf) {
-        uf = uf.trim();
-        uf = uf.toUpperCase();
         /*
             Validação do campo
         */
-        if(uf.isBlank() || uf.isEmpty())
+        if(uf == null || uf.isBlank() || uf.isEmpty())
         {
-            JOptionPane.showMessageDialog(null, "Escolha um estado");
+            ShowErrorValidateMessage("Escolha um Estado");
         }
-        else if(UfValidator.isUf(uf))
-        {
-            this.uf = uf;
+        else{
+            uf = uf.trim().toUpperCase();
+            if(UfValidator.isUf(uf))
+            {
+                this.uf = uf;
+            }
+            else
+            {
+                ShowErrorValidateMessage("Escolha um Estado válido");
+            }
         }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Estado inválido");
-        }
+        
     }
 
     public String getCep() {
@@ -166,11 +179,11 @@ public class Agencia {
     }
 
     public void setCep(String cep) {
-        cep = cep.trim();
-        if(cep.isEmpty() || cep.isBlank()){
-            JOptionPane.showMessageDialog(null,"Digite o CEP");
+        if(cep == null || cep.isEmpty() || cep.isBlank()){
+            ShowErrorValidateMessage("Digite o CEP");
         }
         else{
+            cep = cep.trim();
             this.cep = cep;
         }
     }
@@ -180,17 +193,17 @@ public class Agencia {
     }
 
     public void setTelefone(String telefone) {
+        
+        if(telefone == null || telefone.isBlank() || telefone.isEmpty())
+            return;
+        
         telefone = telefone.trim();
-        if(telefone.isBlank() || telefone.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Digite o telefone");
-        }
-        else if(telefone.length() == 11){
+        if(telefone.length() == 11){
             this.telefone = telefone;
         }
         else{
-            JOptionPane.showMessageDialog(null, "Digite um telefone válido");
+            ShowErrorValidateMessage("Digite um telefone válido ");
         }
-        this.telefone = telefone;
     }
     
     public String dadosSQLValues(){
@@ -209,18 +222,18 @@ public class Agencia {
     }
     
     public String alteraDadosSQLValues(){
-    String dadosClientes;
-    dadosClientes = 
-        "NUM_AGE='" + getSqlValue(this.getNum_agencia()) + "'," +
-        "ENDE_AGE='" + getSqlValue(this.getEndereco()) + "'," +
-        "NUME_AGE='" +getSqlValue(this.getNumero()) + "'," +
-        "COMPL_AGE='" +getSqlValue(this.getComplemento()) + "'," +
-        "BAIR_AGE='" +getSqlValue(this.getBairro()) + "'," +
-        "CIDA_AGE='" +getSqlValue(this.getCidade()) + "'," +
-        "UF_AGE='" +getSqlValue(this.getUf()) + "'," +
-        "CEP_AGE='" +getSqlValue(this.getCep()) + "'," +
-        "FONE_AGE='" +getSqlValue(this.getNumero()) + "'";
-        return dadosClientes;
+    String dadosAgencias;
+    dadosAgencias = 
+        "NOME_AGE=" + getSqlValue(this.getNome()) + "," +
+        "ENDE_AGE=" + getSqlValue(this.getEndereco()) + "," +
+        "NUME_AGE=" +getSqlValue(this.getNumero()) + "," +
+        "COMPL_AGE=" +getSqlValue(this.getComplemento()) + "," +
+        "BAIR_AGE=" +getSqlValue(this.getBairro()) + "," +
+        "CIDA_AGE=" +getSqlValue(this.getCidade()) + "," +
+        "UF_AGE=" +getSqlValue(this.getUf()) + "," +
+        "CEP_AGE=" +getSqlValue(this.getCep()) + "," +
+        "FONE_AGE=" +getSqlValue(this.getTelefone()) + "";
+        return dadosAgencias;
     }
     
     // Função auxiliar para verificar se o valor é nulo ou vazio

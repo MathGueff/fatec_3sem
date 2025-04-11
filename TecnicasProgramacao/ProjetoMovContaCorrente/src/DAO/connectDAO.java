@@ -177,5 +177,53 @@ public class connectDAO {
         }
         return clientesReturn;
     }
+    
+    public Agencia pesquisaAgenciaJFDB(String tabela, String pesquisaId){
+        Agencia agenciaReturn = new Agencia();
+        String tabelaSGBD = "AGENCIAS";
+        
+        if(tabela.equals(tabelaSGBD)){
+            con = connectDB();
+            
+            Statement stmt;
+            
+            try {
+                stmt = con.createStatement();
+                String sql = "SELECT * FROM " + tabela + " WHERE " + pesquisaId;
+                JOptionPane.showMessageDialog(null, "String de Select: " + sql);
+                try {
+                    ResultSet dados;
+                    dados = stmt.executeQuery(sql);
+                    if(dados.next() == false){
+                        JOptionPane.showMessageDialog(null, "Nenhum registro foi encontrado para essa pesquisa");
+                        return null;
+                    }
+                    else{
+                        agenciaReturn.setNum_agencia(dados.getString(1));
+                        agenciaReturn.setNome(dados.getString(2));
+                        agenciaReturn.setEndereco(dados.getString(3));
+                        agenciaReturn.setNumero(dados.getString(4));
+                        agenciaReturn.setComplemento(dados.getString(5));
+                        agenciaReturn.setBairro(dados.getString(6));
+                        agenciaReturn.setCidade(dados.getString(7));
+                        agenciaReturn.setUf(dados.getString(8));
+                        agenciaReturn.setCep(dados.getString(9));
+                        agenciaReturn.setTelefone(dados.getString(10));
+                    }
+                    con.close();
+                    return agenciaReturn;
+                } catch(SQLException erro){
+                    JOptionPane.showMessageDialog(null, "Erro de conexão, connectDAO - Mensagem => "+erro.getMessage());
+                    JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Estado => "+erro.getSQLState());
+                    JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Código => "+erro.getErrorCode());
+                }
+                con.close();
+                return null;
+            } catch(SQLException ex){
+                Logger.getLogger(connectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return agenciaReturn;
+    }
 }
  

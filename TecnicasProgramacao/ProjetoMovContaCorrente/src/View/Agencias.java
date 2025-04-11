@@ -282,7 +282,7 @@ public class Agencias extends javax.swing.JFrame {
         operacao = "Alteração";
         if(operacaoAtivaGlobal.equals((operacao))){
             connectDAO objcon = new connectDAO();
-            /*Definindo os valores do objeto Cliente como os valores dos campos */
+            /*Definindo os valores do objeto Agencia como os valores dos campos */
             dados_agencia.setNum_agencia(JTextField1.getText().isBlank() || JTextField1.getText().isEmpty() ? "0" : JTextField1.getText());
             dados_agencia.setNome(JTextField2.getText());
             dados_agencia.setEndereco(JTextField3.getText());
@@ -310,7 +310,7 @@ public class Agencias extends javax.swing.JFrame {
         if(operacaoAtivaGlobal.equals((operacao))){
             //Pesquisa o clinte com o ID especificado
             connectDAO objcon = new connectDAO();
-            //dados_agencia = objcon.pesquisaClienteJFDB("AGENCIAS", "NUM_AGE = '" + JTextField1.getText() + "'");
+            dados_agencia = objcon.pesquisaAgenciaJFDB("AGENCIAS", "NUM_AGE = '" + JTextField1.getText() + "'");
             
             if(dados_agencia != null){
                 JTextField2.setText(dados_agencia.getNome());
@@ -359,7 +359,7 @@ public class Agencias extends javax.swing.JFrame {
         if(operacaoAtivaGlobal.equals((operacao))){
             //Pesquisa o cliente com o ID especificado
             connectDAO objcon = new connectDAO();
-            //dados_agencia = objcon.pesquisaClienteJFDB("AGENCIA", "NUM_AGE = '" + JTextField1.getText() + "'");
+            dados_agencia = objcon.pesquisaAgenciaJFDB("AGENCIA", "NUM_AGE = '" + JTextField1.getText() + "'");
             
             if(dados_agencia != null){
                 JTextField2.setText(dados_agencia.getNome());
