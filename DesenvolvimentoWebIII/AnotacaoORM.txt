@@ -1,0 +1,8 @@
+ORM -CONFIGURAÇÕES
+
+npm install --save sequelize-typescript sqlite3
+npm install --save-dev @types/sequelize sequelize-cli
+
+npx sequelize-cli init > cria estrutura padrão do sequelize no projeto
+
+criação de arquivo .sequelizerc
