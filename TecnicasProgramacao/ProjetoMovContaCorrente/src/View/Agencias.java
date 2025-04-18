@@ -213,6 +213,7 @@ public class Agencias extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //UTEIS
     private void SetFormVisible(Boolean bool){
         jLabel1.setVisible(!bool);
         jLabel2.setVisible(bool);
@@ -248,6 +249,43 @@ public class Agencias extends javax.swing.JFrame {
         JTextField11.setText("");
     }
     
+    private void SetFormEditable(boolean bool){
+        JTextField1.setEditable(bool);
+        JTextField2.setEditable(bool);
+        JTextField3.setEditable(bool);
+        JTextField4.setEditable(bool);
+        JTextField5.setEditable(bool);
+        JTextField6.setEditable(bool);
+        JTextField7.setEditable(bool);
+        JTextField8.setEditable(bool);
+        JTextField11.setEditable(bool);
+        jComboBox1.setEnabled(bool);
+    }
+    
+    private void SetFormValues(){
+        JTextField2.setText(dados_agencia.getNome());
+        JTextField3.setText(dados_agencia.getEndereco());
+        JTextField4.setText(dados_agencia.getNumero());
+        JTextField5.setText(dados_agencia.getComplemento());
+        JTextField6.setText(dados_agencia.getBairro());
+        JTextField7.setText(dados_agencia.getCidade());
+        JTextField8.setText(dados_agencia.getCep());
+        JTextField11.setText(dados_agencia.getTelefone());
+        jComboBox1.setSelectedItem(dados_agencia.getUf());
+    }
+    
+    private void SetAgenciaObjectValues(){
+        dados_agencia.setNome(JTextField2.getText());
+        dados_agencia.setEndereco(JTextField3.getText());
+        dados_agencia.setNumero(JTextField4.getText());
+        dados_agencia.setComplemento(JTextField5.getText());
+        dados_agencia.setBairro(JTextField6.getText());
+        dados_agencia.setCidade(JTextField7.getText());
+        dados_agencia.setCep(JTextField8.getText());
+        dados_agencia.setUf(jComboBox1.getSelectedItem().toString());
+        dados_agencia.setTelefone(JTextField11.getText());
+    }
+    
     private void JTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JTextField2ActionPerformed
@@ -257,17 +295,8 @@ public class Agencias extends javax.swing.JFrame {
         //Gravar os dados no objeto cliente c
         String operacao = "Incluir";
         if(operacaoAtivaGlobal.equals(operacao)){
-            dados_agencia.setNome(JTextField2.getText());
-            dados_agencia.setEndereco(JTextField3.getText());
-            dados_agencia.setNumero(JTextField4.getText());
-            dados_agencia.setComplemento(JTextField5.getText());
-            dados_agencia.setBairro(JTextField6.getText());
-            dados_agencia.setCidade(JTextField7.getText());
-            dados_agencia.setCep(JTextField8.getText());
-            dados_agencia.setUf(jComboBox1.getSelectedItem().toString());
-            dados_agencia.setTelefone(JTextField11.getText());
-            
-            if(dados_agencia.isValidate()){
+            SetAgenciaObjectValues();
+            if(dados_agencia.getIsValid()){
                 //Inserção no banco de dados
                 connectDAO objcon = new connectDAO();
                 objcon.connectDB();
@@ -276,34 +305,35 @@ public class Agencias extends javax.swing.JFrame {
             }
             else{
                 dados_agencia.ShowErrorValidateMessage("Campos preenchidos incorretamente");
-                dados_agencia.setValidate(true);
+                dados_agencia.setIsValid(true);
             }
         }
         operacao = "Alteração";
         if(operacaoAtivaGlobal.equals((operacao))){
-            connectDAO objcon = new connectDAO();
             /*Definindo os valores do objeto Agencia como os valores dos campos */
             dados_agencia.setNum_agencia(JTextField1.getText().isBlank() || JTextField1.getText().isEmpty() ? "0" : JTextField1.getText());
-            dados_agencia.setNome(JTextField2.getText());
-            dados_agencia.setEndereco(JTextField3.getText());
-            dados_agencia.setNumero(JTextField4.getText());
-            dados_agencia.setComplemento(JTextField5.getText());
-            dados_agencia.setBairro(JTextField6.getText());
-            dados_agencia.setCidade(JTextField7.getText());
-            dados_agencia.setCep(JTextField8.getText());
-            dados_agencia.setUf(jComboBox1.getSelectedItem().toString());
-            dados_agencia.setTelefone(JTextField11.getText());
-
+            SetAgenciaObjectValues();
+            
             //ALteração no banco de dados
-            objcon.alteraRegistroJFDB("AGENCIAS", dados_agencia.alteraDadosSQLValues(), 
+            if(dados_agencia.getIsValid()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.alteraRegistroJFDB("AGENCIAS", dados_agencia.alteraDadosSQLValues(), 
                 "NUM_AGE=" +JTextField1.getText());
-
-            //Limpando todos os textos
-            ClearFormInputs();
-            SetFormVisible(false);
-            jButton1.setText("Pesquisar");
-            operacaoAtivaGlobal = "Alterar";
-            return;
+                ClearFormInputs();
+                
+                //Limpando todos os textos
+                ClearFormInputs();
+                SetFormVisible(false);
+                jButton1.setText("Pesquisar");
+                operacaoAtivaGlobal = "Alterar";
+                return;
+            }
+            else{
+                dados_agencia.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                dados_agencia.setIsValid(true);
+            }
         }
         
         operacao = "Alterar";
@@ -313,15 +343,7 @@ public class Agencias extends javax.swing.JFrame {
             dados_agencia = objcon.pesquisaAgenciaJFDB("AGENCIAS", "NUM_AGE = '" + JTextField1.getText() + "'");
             
             if(dados_agencia != null){
-                JTextField2.setText(dados_agencia.getNome());
-                JTextField3.setText(dados_agencia.getEndereco());
-                JTextField4.setText(dados_agencia.getNumero());
-                JTextField5.setText(dados_agencia.getComplemento());
-                JTextField6.setText(dados_agencia.getBairro());
-                JTextField7.setText(dados_agencia.getCidade());
-                JTextField8.setText(dados_agencia.getCep());
-                JTextField11.setText(dados_agencia.getTelefone());
-                jComboBox1.setSelectedItem(dados_agencia.getUf());
+                SetFormValues();
 
                 //Mostrando os campos para que possam ser alterados
 
@@ -335,21 +357,13 @@ public class Agencias extends javax.swing.JFrame {
         operacao = "Exclusão";
         if(operacaoAtivaGlobal.equals((operacao))){
             connectDAO objcon = new connectDAO();
-            objcon.excluiRegistroJFDB("AGENCIAS","NUM_AGE=" +JTextField1.getText());
+            objcon.excluiRegistroJFDB("AGENCIAS","NUM_AGE=" + JTextField1.getText());
 
             //Limpando todos os textos
             ClearFormInputs();
             SetFormVisible(false);
-            JTextField1.setEditable(true);
-            JTextField2.setEditable(true);
-            JTextField3.setEditable(true);
-            JTextField4.setEditable(true);
-            JTextField5.setEditable(true);
-            JTextField6.setEditable(true);
-            JTextField7.setEditable(true);
-            JTextField8.setEditable(true);
-            JTextField11.setEditable(true);
-            jComboBox1.setEnabled(true);
+            SetFormEditable(true);
+            
             jButton1.setText("Pesquisar");
             operacaoAtivaGlobal = "Excluir";
             return;
@@ -359,65 +373,17 @@ public class Agencias extends javax.swing.JFrame {
         if(operacaoAtivaGlobal.equals((operacao))){
             //Pesquisa o cliente com o ID especificado
             connectDAO objcon = new connectDAO();
-            dados_agencia = objcon.pesquisaAgenciaJFDB("AGENCIA", "NUM_AGE = '" + JTextField1.getText() + "'");
-            
+            dados_agencia = objcon.pesquisaAgenciaJFDB("AGENCIAS", "NUM_AGE = '" + JTextField1.getText() + "'");
             if(dados_agencia != null){
-                JTextField2.setText(dados_agencia.getNome());
-                JTextField3.setText(dados_agencia.getEndereco());
-                JTextField4.setText(dados_agencia.getNumero());
-                JTextField5.setText(dados_agencia.getComplemento());
-                JTextField6.setText(dados_agencia.getBairro());
-                JTextField7.setText(dados_agencia.getCidade());
-                JTextField8.setText(dados_agencia.getCep());
-                JTextField11.setText(dados_agencia.getTelefone());
-                jComboBox1.setSelectedItem(dados_agencia.getUf());
-
                 //Mostrando os campos para que possam ser alterados
                 jButton1.setText("Excluir");
                 operacaoAtivaGlobal = "Exclusão";
+                SetFormValues();
                 SetFormVisible(true);
-                JTextField1.setEditable(false);
-                JTextField2.setEditable(false);
-                JTextField3.setEditable(false);
-                JTextField4.setEditable(false);
-                JTextField5.setEditable(false);
-                JTextField6.setEditable(false);
-                JTextField7.setEditable(false);
-                JTextField8.setEditable(false);
-                JTextField11.setEditable(false);
-                jComboBox1.setEnabled(false);
+                SetFormEditable(false);
             }
             return;
         }
-        /*
-        agencia_jframe.setNome(JTextField2.getText());
-        agencia_jframe.setEndereco(JTextField3.getText());
-        agencia_jframe.setNumero(JTextField4.getText());
-        agencia_jframe.setComplemento(JTextField5.getText());
-        agencia_jframe.setBairro(JTextField6.getText());
-        agencia_jframe.setCidade(JTextField7.getText());
-        agencia_jframe.setCep(JTextField8.getText());
-        //agencia_jframe.setCnpj(JTextField9.getText());
-        //agencia_jframe.setGerente(JTextField10.getText());
-        agencia_jframe.setUf(jComboBox1.getSelectedItem().toString());
-        agencia_jframe.setTelefone(JTextField11.getText());
-        JOptionPane.showMessageDialog(null, "Cadastrado ");
-         //Inserção no banco de dados
-            connectDAO objcon = new connectDAO();
-            objcon.connectDB();
-            objcon.insereRegistroJFBD("AGENCIAS", agencia_jframe.dadosSQLValues());
-            
-            JTextField2.setText("");
-            JTextField3.setText("");
-            JTextField4.setText("");
-            JTextField5.setText("");
-            JTextField6.setText("");
-            JTextField7.setText("");
-            //JTextField9.setText("");
-            JTextField8.setText("");
-            //JTextField10.setText("");
-            JTextField11.setText("");
-            jComboBox1.setSelectedIndex(0); */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_LerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LerActionPerformed

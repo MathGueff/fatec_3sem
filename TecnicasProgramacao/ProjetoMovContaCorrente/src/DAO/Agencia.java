@@ -24,13 +24,13 @@ public class Agencia {
     private String uf;
     private String cep;
     private String telefone;
-    private boolean validate = true;
+    private boolean isValid = true;
     
     public Agencia(){
         //Construtor vazio para o objeto Agencia
     }
 
-    public Agencia(String num_agencia, String nome, String endereco, String numero, String complemento, String bairro, String cidade, String uf, String cep, String telefone, boolean validate) {
+    public Agencia(String num_agencia, String nome, String endereco, String numero, String complemento, String bairro, String cidade, String uf, String cep, String telefone, boolean isValid) {
         this.num_agencia = num_agencia;
         this.nome = nome;
         this.endereco = endereco;
@@ -41,7 +41,7 @@ public class Agencia {
         this.uf = uf;
         this.cep = cep;
         this.telefone = telefone;
-        this.validate = true;
+        this.isValid = true;
     }
 
     public String getNum_agencia() {
@@ -59,17 +59,17 @@ public class Agencia {
         }
     }
     
-    public boolean isValidate() {
-        return validate;
+    public boolean getIsValid() {
+        return isValid;
     }
 
-    public void setValidate(boolean validate) {
-        this.validate = validate;
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
     }
     
     public void ShowErrorValidateMessage(String message){
         JOptionPane.showMessageDialog(null, message);
-        setValidate(false);
+        setIsValid(false);
     }
 
     public String getNome() {
@@ -83,6 +83,10 @@ public class Agencia {
         }
         else{
             nome = nome.trim();
+            if(nome.length() > 30) {
+                ShowErrorValidateMessage("Nome deve ter até 30 caracteres");
+                return;
+            }
             this.nome = nome;
         }
     }
@@ -98,6 +102,10 @@ public class Agencia {
         }
         else{
             endereco = endereco.trim();
+            if(endereco.length() > 50) {
+                ShowErrorValidateMessage("Endereço deve ter até 50 caracteres");
+                return;
+            }
             this.endereco = endereco;
         }
     }
@@ -109,6 +117,10 @@ public class Agencia {
     public void setNumero(String numero) {
         if(numero != null && !numero.isBlank() && !numero.isEmpty()){
             numero = numero.trim();
+            if(numero.length() > 8) {
+                ShowErrorValidateMessage("Número deve ter até 8 caracteres");
+                return;
+            }
             this.numero = numero;
         }
     }
@@ -120,6 +132,10 @@ public class Agencia {
     public void setComplemento(String complemento) {
         if(complemento != null && !complemento.isBlank() && !complemento.isEmpty()){
             complemento = complemento.trim();
+            if(complemento.length() > 20) {
+                ShowErrorValidateMessage("Complemento deve ter até 20 caracteres");
+                return;
+            }
             this.complemento = complemento;
         }
     }
@@ -131,6 +147,10 @@ public class Agencia {
     public void setBairro(String bairro) {
         if(bairro != null && !bairro.isBlank() && !bairro.isEmpty()){
             bairro = bairro.trim();
+            if(bairro.length() > 20) {
+                ShowErrorValidateMessage("Bairro deve ter até 20 caracteres");
+                return;
+            }
             this.bairro = bairro;
         }
     }
@@ -144,6 +164,10 @@ public class Agencia {
             ShowErrorValidateMessage("Digite a cidade");
         else{
             cidade = cidade.trim();
+            if(cidade.length() > 30) {
+                ShowErrorValidateMessage("Cidade deve ter até 30 caracteres");
+                return;
+            }
             this.cidade = cidade;
         }
     }
@@ -164,6 +188,10 @@ public class Agencia {
             uf = uf.trim().toUpperCase();
             if(UfValidator.isUf(uf))
             {
+                if(uf.length() > 2) {
+                    ShowErrorValidateMessage("Estado deve ter até 2 caracteres");
+                    return;
+                }
                 this.uf = uf;
             }
             else
@@ -184,7 +212,12 @@ public class Agencia {
         }
         else{
             cep = cep.trim();
-            this.cep = cep;
+            if(cep.length() == 8) {
+                this.cep = cep;
+            }
+            else{
+                ShowErrorValidateMessage("CEP inválido");
+            }
         }
     }
 
@@ -198,7 +231,7 @@ public class Agencia {
             return;
         
         telefone = telefone.trim();
-        if(telefone.length() == 11){
+        if(telefone.length() == 13){
             this.telefone = telefone;
         }
         else{
