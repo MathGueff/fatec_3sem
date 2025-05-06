@@ -1,6 +1,7 @@
 import express from 'express' 
 import {connectToDatabase} from './config/db.js';
 import municipiosRoutes from './routes/municipios.js'
+import usuariosRoutes from './routes/usuarios.js'
 import fs from 'fs'
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json()) // forçando a trabalhar com JSON
 app.use('/', express.static('public'))
 
 app.use('/api/municipios', municipiosRoutes)
+app.use('/api/usuarios', usuariosRoutes)
 
 //define o favicon
 app.use('/favicon.ico', express.static('public/images/logo.png'))

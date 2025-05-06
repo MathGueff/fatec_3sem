@@ -10,3 +10,11 @@
 
 > Autenticação para acesso da API
 
+### Comandos para criptografia
+
+`npm i bcryptjs jsonwebtoken`
+
+- bcryptjs -> Criptografar o conteúdo
+- jsonwebtoken -> Para gerar o JWT
+
+

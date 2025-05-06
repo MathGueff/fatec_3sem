@@ -1,6 +1,5 @@
 import { check, param, validationResult } from 'express-validator'
 
-const db = req.app.locals.db;
 export const validateRequest = (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -48,16 +47,16 @@ export const validateUsuario = [
         .not().isEmpty().trim().withMessage("É obrigatório informar o email")
         .isEmail().withMessage("Informe um email válido")
         .isLowercase().withMessage("Não são permitidos maiúsculas")
-        .custom((value, {req}) => {
+        /* .custom((value) => {
             return db.collection('usuarios')
                 .find({email : {$eq : value}}).toArray()
                 .then((email) => {
                     //Verificar se não existe o Id para garantir que é inclusão
-                    if(email.length & !req.params.id){
+                    if(email.length){
                         return Promise.reject(`O email ${value} já existe!`)
                     }
                 })
-        }),
+        })*/,
     check('senha')
         .not().isEmpty().trim().withMessage("A senha é obrigatória")
         .isLength({min : 6}).withMessage("A senha deve ter no mínimo 6 caracteres")
