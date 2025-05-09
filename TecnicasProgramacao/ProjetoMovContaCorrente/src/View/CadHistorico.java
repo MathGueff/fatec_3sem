@@ -25,26 +25,52 @@ public class CadHistorico extends javax.swing.JFrame {
         initComponents();
         operacaoAtivaGlobal = operacaoAtiva;
         String operacao = "Incluir";
-        
+        //INCLUSÃO
         if(operacaoAtiva.equals(operacao)){
-            jLabel1.setVisible(false);
-            jLabel2.setVisible(true);
-            jTextField1.setVisible(false);
-            jTextArea1.setVisible(true);
+            SetFormVisible(true);
             jButton1.setText(operacaoAtivaGlobal);
         }
         operacao = "Alterar";
         if(operacaoAtiva.equals(operacao)){
-            jLabel1.setVisible(true);
-            jLabel2.setVisible(false);
-            jTextField1.setVisible(true);
-            jTextArea1.setVisible(false);
-            jButton1.setText(operacaoAtivaGlobal);
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
+        }
+        operacao = "Excluir";
+        if(operacaoAtiva.equals(operacao)){
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
         }
     }
     
     Historico h = new Historico();
 
+    //UTEIS
+    private void SetFormVisible(Boolean bool){
+        jLabel1.setVisible(!bool);
+        jLabel2.setVisible(bool);
+        jTextArea1.setVisible(bool);
+        jTextField1.setVisible(!bool);
+    }
+    
+    private void ClearFormInputs(){
+        jTextArea1.setText("");
+        jTextField1.setText("");
+    }
+    
+    private void SetFormEditable(boolean bool){
+        jTextArea1.setEditable(bool);
+        jTextField1.setEditable(bool);
+    }
+    
+    private void SetFormValues(){
+        jTextArea1.setText(h.getHistorico());
+        jTextField1.setText(Integer.toString(h.getId_his()));
+    }
+    
+    private void SetHistoricoObjectValues(){
+        h.setHistorico(jTextArea1.getText());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,16 +133,91 @@ public class CadHistorico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //h.setId_his(jTextField1.getText().isBlank() || jTextField1.getText().isEmpty() ? 0 : Integer.parseInt(jTextField1.getText().trim()));
-        h.setHistorico(jTextArea1.getText());
-        JOptionPane.showMessageDialog(null, "Cadastrado");
+        //Gravar os dados no objeto cliente c
+        String operacao = "Incluir";
+        if(operacaoAtivaGlobal.equals(operacao)){
+            SetHistoricoObjectValues();
+            if(h.getIsValid()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.insereRegistroJFBD("HISTORICOS", h.dadosSQLValues());
+                ClearFormInputs();
+            }
+            else{
+                h.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                h.setIsValid(true);
+            }
+        }
+        operacao = "Alteração";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            SetHistoricoObjectValues();
+            //ALteração no banco de dados
+            if(h.getIsValid()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.alteraRegistroJFDB("HISTORICOS", h.alteraDadosSQLValues(), 
+                "ID_HIS=" +jTextField1.getText());
+                
+                //Limpando todos os textos
+                ClearFormInputs();
+                SetFormVisible(false);
+                jButton1.setText("Pesquisar");
+                operacaoAtivaGlobal = "Alterar";
+                return;
+            }
+            else{
+                h.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                h.setIsValid(true);
+            }
+        }
         
-        connectDAO objcon = new connectDAO();
-        objcon.connectDB();
-        objcon.insereRegistroJFBD("HISTORICOS", h.dadosSQLValues());
+        operacao = "Alterar";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            //Pesquisa o clinte com o ID especificado
+            connectDAO objcon = new connectDAO();
+            h = objcon.pesquisaHistoricoJFDB("HISTORICOS", "ID_HIS = '" + jTextField1.getText() + "'");
+            
+            if(h != null){
+                SetFormValues();
+                SetFormVisible(true);
+                jButton1.setText("Alterar");
+                operacaoAtivaGlobal = "Alteração";
+            }
+            return;
+        }
+        
+        operacao = "Exclusão";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            connectDAO objcon = new connectDAO();
+            objcon.excluiRegistroJFDB("HISTORICOS","ID_HIS=" + jTextField1.getText());
 
-        //jTextField1.setText("");
-        jTextArea1.setText("");
+            //Limpando todos os textos
+            ClearFormInputs();
+            SetFormVisible(false);
+            SetFormEditable(true);
+            
+            jButton1.setText("Pesquisar");
+            operacaoAtivaGlobal = "Excluir";
+            return;
+        }
+        
+        operacao = "Excluir";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            //Pesquisa o cliente com o ID especificado
+            connectDAO objcon = new connectDAO();
+            h = objcon.pesquisaHistoricoJFDB("HISTORICOS", "ID_HIS = '" + jTextField1.getText() + "'");
+            if(h != null){
+                //Mostrando os campos para que possam ser alterados
+                jButton1.setText("Excluir");
+                operacaoAtivaGlobal = "Exclusão";
+                SetFormValues();
+                SetFormVisible(true);
+                SetFormEditable(false);
+            }
+            return;
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed

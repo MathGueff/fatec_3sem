@@ -13,14 +13,24 @@ import javax.swing.JOptionPane;
 public class Historico {
     private int id_his;
     private String historico;
+    private boolean isValid = true;
     
     public Historico(int id_his, String historico){
         this.id_his = id_his;
         this.historico = historico;
+        this.isValid = true;
     }
-    
+        
     public Historico(){}
 
+    public boolean getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
+    
     public int getId_his() {
         return id_his;
     }
@@ -44,12 +54,17 @@ public class Historico {
 
     public void setHistorico(String historico) {
         historico = historico.trim();
-        if(historico.isBlank() || historico.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Digite o histórico");
+        if(historico.isBlank() || historico.isEmpty() || historico == null){
+            ShowErrorValidateMessage("Digite o histórico");
         }
         else{
             this.historico = historico;
         }
+    }
+    
+    public void ShowErrorValidateMessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+        setIsValid(false);
     }
     
     public String dadosSQLValues(){
@@ -57,6 +72,13 @@ public class Historico {
         dadosHistorico = 
             getSqlValue(getHistorico());
         return dadosHistorico;
+    }
+    
+    public String alteraDadosSQLValues(){
+    String dadosHistoricos;
+    dadosHistoricos = 
+        "DES_HIS=" + getSqlValue(getHistorico());
+        return dadosHistoricos;
     }
     
     // Função auxiliar para verificar se o valor é nulo ou vazio

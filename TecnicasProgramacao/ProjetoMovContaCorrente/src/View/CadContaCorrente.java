@@ -73,10 +73,12 @@ public class CadContaCorrente extends javax.swing.JFrame {
         jTextField4.setText(Double.toString(dados_cc.getSaldo()));
     }
     
-    private void SetCcObjectValues(){
+    private void SetContaCorrenteObjectValues(){
+        boolean idValido = !jTextField3.getText().isEmpty() && !jTextField3.getText().isBlank() && jTextField3.getText() != null;
+        boolean saldoValido = !jTextField4.getText().isEmpty() && !jTextField4.getText().isBlank() && jTextField4.getText() != null;
         dados_cc.setNum_agencia(jTextField1.getText());
-        dados_cc.setId_cli(Integer.parseInt(jTextField3.getText()));
-        dados_cc.setSaldo(Double.parseDouble(jTextField4.getText()));
+        dados_cc.setId_cli(idValido ? Integer.parseInt(jTextField3.getText()) : 0);
+        dados_cc.setSaldo(saldoValido ? Double.parseDouble(jTextField4.getText()) : 0);
     }
     
     ContaCorrente dados_cc = new ContaCorrente();
@@ -152,7 +154,7 @@ public class CadContaCorrente extends javax.swing.JFrame {
         //Gravar os dados no objeto cliente c
         String operacao = "Incluir";
         if(operacaoAtivaGlobal.equals(operacao)){
-            SetCcObjectValues();
+            SetContaCorrenteObjectValues();
             if(dados_cc.getIsValid()){
                 //Inserção no banco de dados
                 connectDAO objcon = new connectDAO();
@@ -169,7 +171,7 @@ public class CadContaCorrente extends javax.swing.JFrame {
         if(operacaoAtivaGlobal.equals((operacao))){
             /*Definindo os valores do objeto Agencia como os valores dos campos */
             dados_cc.setNum_agencia(jTextField2.getText().isBlank() || jTextField2.getText().isEmpty() ? "0" : jTextField2.getText());
-            SetCcObjectValues();
+            SetContaCorrenteObjectValues();
             
             //ALteração no banco de dados
             if(dados_cc.getIsValid()){

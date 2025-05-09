@@ -20,6 +20,7 @@ public class Movimentacao {
     private String compl_hist;
     private double valor;
     private double saldo;
+    private boolean isValid = true;
 
     public Movimentacao(String num_conta, String num_age, String documento, String data_mov, String creditoDebito, int id_his, String compl_hist, double valor, double saldo) {
         this.num_conta = num_conta;
@@ -31,18 +32,32 @@ public class Movimentacao {
         this.compl_hist = compl_hist;
         this.valor = valor;
         this.saldo = saldo;
+        this.isValid = true;
     }
     
     public Movimentacao(){}
 
+    public void ShowErrorValidateMessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+        setIsValid(false);
+    }
+
+    public boolean getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
+    
     public String getNum_conta() {
         return num_conta;
     }
 
     public void setNum_conta(String num_conta) {
         num_conta = num_conta.trim();
-        if(num_conta.isBlank() || num_conta.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Digite o número da conta");
+        if(num_conta.isBlank() || num_conta.isEmpty() || num_conta == null){
+            ShowErrorValidateMessage("Digite o número da conta");
         }
         else{
             this.num_conta = num_conta;
@@ -55,8 +70,8 @@ public class Movimentacao {
 
     public void setNum_age(String num_age) {
         num_age = num_age.trim();
-        if(num_age.isBlank() || num_age.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Digite o número da agência");
+        if(num_age.isBlank() || num_age.isEmpty() || num_age == null){
+            ShowErrorValidateMessage("Digite o número da agência");
         }
         else{
             this.num_age = num_age;
@@ -69,15 +84,15 @@ public class Movimentacao {
 
     public void setDocumento(String documento) {
         documento = documento.trim();
-        if(documento.isBlank() || documento.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Digite o número de documento");
+        if(documento.isBlank() || documento.isEmpty() || documento == null){
+            ShowErrorValidateMessage("Digite o número de documento");
         }
         else{
             if(documento.length() <= 6){  
                 this.documento = documento;
             }
             else{
-                JOptionPane.showMessageDialog(null, "Tamanho do documento inválido");
+                ShowErrorValidateMessage("Tamanho do documento inválido");
             }
         }
     }
@@ -88,8 +103,8 @@ public class Movimentacao {
 
     public void setData_mov(String data_mov) {
         data_mov = data_mov.trim();
-        if(data_mov.isBlank() || data_mov.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Digite a data");
+        if(data_mov.isBlank() || data_mov.isEmpty() || data_mov == null){
+            ShowErrorValidateMessage("Digite a data");
         }
         else{
             this.data_mov = data_mov;
@@ -102,14 +117,14 @@ public class Movimentacao {
 
     public void setCreditoDebito(String creditoDebito) {
         creditoDebito = creditoDebito.trim();
-        if(creditoDebito.isBlank() || creditoDebito.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Escolha uma opção válida");
+        if(creditoDebito.isBlank() || creditoDebito.isEmpty() || creditoDebito == null){
+            ShowErrorValidateMessage("Escolha uma opção válida");
         }
         else if(creditoDebito == "c" || creditoDebito == "d"){
             this.creditoDebito = creditoDebito;
         }
         else{
-            JOptionPane.showMessageDialog(null, "Escolha entre credito e débito");
+            ShowErrorValidateMessage("Escolha entre credito ou débito");
         }
     }
 
@@ -119,7 +134,7 @@ public class Movimentacao {
 
     public void setId_his(int id_his) {
         if(id_his == 0){
-            JOptionPane.showMessageDialog(null, "Digite o número do histórico");
+            ShowErrorValidateMessage("Digite o número do histórico");
         }
         else{
             this.id_his = id_his;
@@ -131,8 +146,14 @@ public class Movimentacao {
     }
 
     public void setCompl_hist(String compl_hist) {
-        compl_hist = compl_hist.trim();
-        this.compl_hist = compl_hist;
+        if(compl_hist.isBlank() || compl_hist.isEmpty() || compl_hist == null){
+            if(compl_hist.length() > 30){
+                ShowErrorValidateMessage("O complemento deve ser menor que 30 caracteres");
+                return;
+            }
+            compl_hist = compl_hist.trim();
+            this.compl_hist = compl_hist;
+        }
     }
 
     public double getValor() {
@@ -141,7 +162,7 @@ public class Movimentacao {
 
     public void setValor(double valor) {
         if(valor == 0 || valor < 0){
-            JOptionPane.showMessageDialog(null, "Digite um valor válido");
+            ShowErrorValidateMessage("Digite um valor válido");
         }
         else{
             this.valor = valor;
@@ -154,7 +175,7 @@ public class Movimentacao {
 
     public void setSaldo(double saldo) {
         if(saldo == 0 || saldo < 0){
-            JOptionPane.showMessageDialog(null, "Digite um saldo válido");
+            ShowErrorValidateMessage("Digite um saldo válido");
         }
         else{
             this.saldo = saldo;
@@ -174,6 +195,21 @@ public class Movimentacao {
             getSqlValue(Double.toString(getValor())) + "," + //valor
             getSqlValue(Double.toString(getSaldo())); //saldo
         return dadosMovimentacao;
+    }
+     
+    public String alteraDadosSQLValues(){
+        String dadosMovimentacao;
+        dadosMovimentacao = 
+            "NUM_AGE=" + getSqlValue(getNum_age()) + "," +
+            "NUM_CC=" + getSqlValue(getNum_conta()) + "," +
+            "DATA_MOV=" + getSqlValue(getData_mov()) + "," +
+            "NUM_DOCTO=" + getSqlValue(getDocumento()) + "," +
+            "DEBITO_CREDITO=" + getSqlValue(getCreditoDebito()) + "," +
+            "ID_HIS=" + getSqlValue(Integer.toString(getId_his())) + "," +
+            "COMPL_HIS=" + getSqlValue(getCompl_hist()) + "," +
+            "VALOR=" + getSqlValue(Double.toString(getValor())) + "," +
+            "SALDO=" + getSqlValue(Double.toString(getSaldo()));
+            return dadosMovimentacao;
     }
      
     // Função auxiliar para verificar se o valor é nulo ou vazio

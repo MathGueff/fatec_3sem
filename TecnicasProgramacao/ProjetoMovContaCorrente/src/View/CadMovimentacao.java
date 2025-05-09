@@ -26,52 +26,113 @@ public class CadMovimentacao extends javax.swing.JFrame {
         initComponents();
         operacaoAtivaGlobal = operacaoAtiva;
         String operacao = "Incluir";
-        
+        //INCLUSÃO
         if(operacaoAtiva.equals(operacao)){
-            jLabel1.setVisible(true);
-            jLabel2.setVisible(true);
-            jLabel3.setVisible(true);
-            jLabel4.setVisible(true);
-            jLabel5.setVisible(true);
-            jLabel6.setVisible(true);
-            jLabel7.setVisible(true);
-            jLabel8.setVisible(true);
-            jTextField1.setVisible(true);
-            jTextField2.setVisible(true);
-            jTextField3.setVisible(true);
-            jTextField4.setVisible(true);
-            jTextField5.setVisible(true);
-            jTextField6.setVisible(true);
-            jTextField7.setVisible(true);
-            jRadioButton1.setVisible(true);
-            jRadioButton2.setVisible(true);
+            SetFormVisible(true);
             jButton1.setText(operacaoAtivaGlobal);
         }
         operacao = "Alterar";
         if(operacaoAtiva.equals(operacao)){
-            jLabel1.setVisible(false);
-            jLabel2.setVisible(false);
-            jLabel3.setVisible(false);
-            jLabel4.setVisible(false);
-            jLabel5.setVisible(false);
-            jLabel6.setVisible(false);
-            jLabel7.setVisible(false);
-            jLabel8.setVisible(false);
-            jTextField1.setVisible(false);
-            jTextField2.setVisible(false);
-            jTextField3.setVisible(false);
-            jTextField4.setVisible(false);
-            jTextField5.setVisible(false);
-            jTextField6.setVisible(false);
-            jTextField7.setVisible(false);
-            jRadioButton1.setVisible(false);
-            jRadioButton2.setVisible(false);
-            jButton1.setText(operacaoAtivaGlobal);
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
+        }
+        operacao = "Excluir";
+        if(operacaoAtiva.equals(operacao)){
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
         }
     }
 
     Movimentacao m = new Movimentacao();
     String tipoCartao = "";
+    
+    //UTEIS
+    private void SetFormVisible(Boolean bool){
+        jLabel1.setVisible(bool);
+        jLabel2.setVisible(bool);
+        jLabel3.setVisible(bool);
+        jLabel4.setVisible(bool);
+        jLabel5.setVisible(bool);
+        jLabel6.setVisible(bool);
+        jLabel7.setVisible(bool);
+        jLabel8.setVisible(bool);
+        jLabel9.setVisible(bool);
+        jTextField1.setVisible(bool);
+        jTextField2.setVisible(bool);
+        jTextField3.setVisible(bool);
+        jTextField4.setVisible(bool);
+        jRadioButton1.setVisible(bool);
+        jRadioButton2.setVisible(bool);
+        jTextField5.setVisible(bool);
+        jTextField6.setVisible(bool);
+        jTextField7.setVisible(bool);
+        jTextField8.setVisible(bool);
+    }
+    
+    private void ClearFormInputs(){
+        jLabel1.setText("");
+        jLabel2.setText("");
+        jLabel3.setText("");
+        jLabel4.setText("");
+        jLabel5.setText("");
+        jLabel6.setText("");
+        jLabel7.setText("");
+        jLabel8.setText("");
+        jLabel9.setText("");
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jRadioButton1.setSelected(false);
+        jRadioButton2.setSelected(false);
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+    }
+    
+    private void SetFormEditable(boolean bool){
+        jTextField1.setEditable(bool);
+        jTextField2.setEditable(bool);
+        jTextField3.setEditable(bool);
+        jTextField4.setEditable(bool);
+        jRadioButton1.setEnabled(bool);
+        jRadioButton2.setEnabled(bool);
+        jTextField5.setEditable(bool);
+        jTextField6.setEditable(bool);
+        jTextField7.setEditable(bool);
+        jTextField8.setEditable(bool);
+    }
+    
+    private void SetFormValues(){       
+        jTextField1.setText(m.getNum_age()); 
+        jTextField2.setText(m.getNum_conta());
+        jTextField3.setText(m.getData_mov());
+        jTextField4.setText(m.getDocumento());
+        if(m.getCreditoDebito().equalsIgnoreCase("c"))
+            jRadioButton1.setSelected(false);
+        else if(m.getCreditoDebito().equalsIgnoreCase("d"))
+            jRadioButton2.setSelected(false);
+        jTextField5.setText(Integer.toString(m.getId_his()));
+        jTextField6.setText(m.getCompl_hist());
+        jTextField7.setText(Double.toString(m.getValor()));
+        jTextField8.setText(Double.toString(m.getSaldo()));
+    }
+    
+    private void SetMovimentacaoObjectValues(){
+        m.setNum_age(jTextField1.getText());
+        m.setNum_conta(jTextField2.getText());
+        m.setData_mov(jTextField3.getText());
+        m.setDocumento(jTextField4.getText());
+        if(jRadioButton1.isSelected())
+            m.setCreditoDebito("c");
+        else if(jRadioButton2.isSelected())
+            m.setCreditoDebito("d");
+        m.setId_his(Integer.parseInt(jTextField5.getText()));
+        m.setCompl_hist(jTextField6.getText());
+        m.setValor(Double.parseDouble(jTextField7.getText()));
+        m.setSaldo(Double.parseDouble(jTextField8.getText()));
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,19 +170,19 @@ public class CadMovimentacao extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Número da Conta");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 9, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, -1, -1));
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 6, 150, -1));
 
         jLabel2.setText("Número da Agência");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 37, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 34, 150, -1));
         getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 62, 150, -1));
 
         jLabel3.setText("Documento");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 65, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, 20));
 
         jLabel4.setText("Data de Movimentação");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 93, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 66, -1, 20));
         getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 90, 150, -1));
 
         jLabel5.setText("Tipo");
@@ -187,33 +248,90 @@ public class CadMovimentacao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //Inserindo os dados
-        m.setNum_conta(jTextField1.getText());
-        m.setNum_age(jTextField2.getText());
-        m.setDocumento(jTextField3.getText());
-        m.setData_mov(jTextField4.getText());
-        m.setCreditoDebito(tipoCartao); //Variável com o radio selecionado
-        m.setId_his(jTextField5.getText().isBlank() || jTextField5.getText().isEmpty() ? 0 : Integer.parseInt(jTextField5.getText()));
-        m.setCompl_hist(jTextField6.getText());
-        m.setValor(jTextField7.getText().isBlank() || jTextField7.getText().isEmpty()? 0 : Double.parseDouble(jTextField7.getText()));
-        m.setSaldo(jTextField8.getText().isBlank() || jTextField8.getText().isEmpty()? 0 : Double.parseDouble(jTextField8.getText()));
-        JOptionPane.showMessageDialog(null, "Cadastrado");
+        String operacao = "Incluir";
+        if(operacaoAtivaGlobal.equals(operacao)){
+            SetMovimentacaoObjectValues();
+            if(m.getIsValid()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.insereRegistroJFBD("MOVIMENTACAO", m.dadosSQLValues());
+                ClearFormInputs();
+            }
+            else{
+                m.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                m.setIsValid(true);
+            }
+        }
+        operacao = "Alteração";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            SetMovimentacaoObjectValues();
+            //ALteração no banco de dados
+            if(m.getIsValid()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.alteraRegistroJFDB("MOVIMENTACAO", m.alteraDadosSQLValues(), 
+                "ID_HIS=" +jTextField1.getText());
+                
+                //Limpando todos os textos
+                ClearFormInputs();
+                SetFormVisible(false);
+                jButton1.setText("Pesquisar");
+                operacaoAtivaGlobal = "Alterar";
+                return;
+            }
+            else{
+                m.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                m.setIsValid(true);
+            }
+        }
         
-        connectDAO objcon = new connectDAO();
-        objcon.connectDB();
-        objcon.insereRegistroJFBD("MOVIMENTACAO", m.dadosSQLValues());
+        operacao = "Alterar";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            //Pesquisa o clinte com o ID especificado
+            connectDAO objcon = new connectDAO();
+            m = objcon.pesquisaMovimentacaoJFDB("MOVIMENTACAO", "ID_HIS = '" + jTextField1.getText() + "'");
+            
+            if(m != null){
+                SetFormValues();
+                SetFormVisible(true);
+                jButton1.setText("Alterar");
+                operacaoAtivaGlobal = "Alteração";
+            }
+            return;
+        }
+        
+        operacao = "Exclusão";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            connectDAO objcon = new connectDAO();
+            objcon.excluiRegistroJFDB("MOVIMENTACAO","ID_HIS=" + jTextField1.getText());
 
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jRadioButton1.setSelected(false);
-        jRadioButton2.setSelected(false);
-        tipoCartao = "";
+            //Limpando todos os textos
+            ClearFormInputs();
+            SetFormVisible(false);
+            SetFormEditable(true);
+            
+            jButton1.setText("Pesquisar");
+            operacaoAtivaGlobal = "Excluir";
+            return;
+        }
+        
+        operacao = "Excluir";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            //Pesquisa o cliente com o ID especificado
+            connectDAO objcon = new connectDAO();
+            m = objcon.pesquisaMovimentacaoJFDB("MOVIMENTACAO", "ID_HIS = '" + jTextField1.getText() + "'");
+            if(m != null){
+                //Mostrando os campos para que possam ser alterados
+                jButton1.setText("Excluir");
+                operacaoAtivaGlobal = "Exclusão";
+                SetFormValues();
+                SetFormVisible(true);
+                SetFormEditable(false);
+            }
+            return;
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
