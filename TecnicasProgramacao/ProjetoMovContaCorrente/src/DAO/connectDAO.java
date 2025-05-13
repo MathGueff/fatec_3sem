@@ -414,5 +414,9 @@ public class connectDAO {
         }
         return null;
     }
+    
+    public void ShowSQLError(String codigo){
+        JOptionPane.showMessageDialog(null, codigo);
+    }
 }
  

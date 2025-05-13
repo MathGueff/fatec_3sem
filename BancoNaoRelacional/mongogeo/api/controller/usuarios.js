@@ -21,3 +21,45 @@ export const insereUsuario = async(req, res) => {
             .catch(err => res.status(400).json(err))
         )
 }
+
+export const efetuaLogin = async (req, res) => {
+    const {email, senha} = req.body;
+    try{
+        const db = req.app.locals.db;
+
+        let usuario = await db.collection('usuarios').find({email}).limit(1).toArray();
+        if(!usuario.length){
+            res.status(404).json({
+                errors : [{
+                    value: `${email}`,
+                    msg: `O email ${email} não está cadastrado`,
+                    param: 'email'
+                }]
+            })
+        }
+        const isMatch = await bcrypt.compare(senha, usuario[0].senha)
+        if(!isMatch)
+            return res.status(403).json({
+                errors: [{
+                    value : 'senha',
+                    msg : 'A senha informada está incorreta',
+                    param: 'senha'
+                }]
+            })
+        jwt.sign(
+            {usuario : {id : usuario[0]._id}},
+            process.env.SECRET_KEY,
+            {expiresIn: process.env.EXPIRES_IN},
+            (err, token) => {
+                if(err) throw err
+                res.status(200).json({
+                    access_token : token,
+                    msg : 'Login efetuado com sucesso'
+                })
+            }
+        )
+    }
+    catch(e){
+        console.log(e);
+    }
+}

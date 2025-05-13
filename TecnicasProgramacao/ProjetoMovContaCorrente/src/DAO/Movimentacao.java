@@ -116,16 +116,15 @@ public class Movimentacao {
     }
 
     public void setCreditoDebito(String creditoDebito) {
+        if(creditoDebito == null || creditoDebito.isBlank() || creditoDebito.isEmpty() ){
+            ShowErrorValidateMessage("Escolha uma opção válida para o cartão");
+            return;
+        }
         creditoDebito = creditoDebito.trim();
-        if(creditoDebito.isBlank() || creditoDebito.isEmpty() || creditoDebito == null){
-            ShowErrorValidateMessage("Escolha uma opção válida");
-        }
-        else if(creditoDebito == "c" || creditoDebito == "d"){
+        if(creditoDebito == "c" || creditoDebito == "d")
             this.creditoDebito = creditoDebito;
-        }
-        else{
+        else
             ShowErrorValidateMessage("Escolha entre credito ou débito");
-        }
     }
 
     public int getId_his() {
@@ -146,12 +145,12 @@ public class Movimentacao {
     }
 
     public void setCompl_hist(String compl_hist) {
-        if(compl_hist.isBlank() || compl_hist.isEmpty() || compl_hist == null){
+        if(!compl_hist.isBlank() && !compl_hist.isEmpty() && compl_hist != null){
+            compl_hist = compl_hist.trim();
             if(compl_hist.length() > 30){
                 ShowErrorValidateMessage("O complemento deve ser menor que 30 caracteres");
                 return;
             }
-            compl_hist = compl_hist.trim();
             this.compl_hist = compl_hist;
         }
     }

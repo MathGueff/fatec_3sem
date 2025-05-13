@@ -128,6 +128,8 @@ public class CadMovimentacao extends javax.swing.JFrame {
             m.setCreditoDebito("c");
         else if(jRadioButton2.isSelected())
             m.setCreditoDebito("d");
+        else
+            m.setCreditoDebito(null);
         m.setId_his(Integer.parseInt(jTextField5.getText()));
         m.setCompl_hist(jTextField6.getText());
         m.setValor(Double.parseDouble(jTextField7.getText()));
@@ -365,24 +367,7 @@ public class CadMovimentacao extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnLerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerActionPerformed
-        jTextField1.setText(m.getNum_conta());
-        jTextField2.setText(m.getNum_age());
-        jTextField3.setText(m.getDocumento());
-        jTextField4.setText(m.getData_mov());
-        jTextField5.setText(Integer.toString(m.getId_his()));
-        jTextField6.setText(m.getCompl_hist());
-        jTextField7.setText(Double.toString(m.getValor()));
-        jTextField8.setText(Double.toString(m.getSaldo()));
-        if(m.getCreditoDebito() == "c"){
-            tipoCartao = "c";
-            jRadioButton1.setSelected(true);
-            jRadioButton2.setSelected(false);
-        }
-        else if(m.getCreditoDebito() == "d"){
-            tipoCartao = "d";
-            jRadioButton2.setSelected(true);
-            jRadioButton1.setSelected(false);
-        }
+      
     }//GEN-LAST:event_btnLerActionPerformed
 
     /**
