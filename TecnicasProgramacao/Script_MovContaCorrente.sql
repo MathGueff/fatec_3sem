@@ -78,3 +78,6 @@ select * from CONTACORRENTE
 select * from HISTORICOS
 select * from MOVIMENTACAO
 select * from USUARIOS
+
+select * from MOVIMENTACAO where NUM_AGE = 8 and NUM_CC = 6 and ID_HIS = 10 and NUM_DOCTO = 123456
+delete from MOVIMENTACAO where NUM_AGE = 8 and NUM_CC = 6 and ID_HIS = 10 and NUM_DOCTO = 123457

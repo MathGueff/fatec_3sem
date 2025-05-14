@@ -14,6 +14,11 @@
 * npx sequelize-cli db:migrate
 ```
 
+### Run Application Command
+``` console
+    npm run dev
+```
+
 ### Create Migration
 
 ```

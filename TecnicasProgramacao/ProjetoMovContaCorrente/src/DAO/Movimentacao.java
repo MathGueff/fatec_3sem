@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import Uteis.DateParser;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,19 +16,19 @@ public class Movimentacao {
     private String num_age;
     private String documento;
     private String data_mov;
-    private String creditoDebito;
+    private String tipoCartao;
     private int id_his;
     private String compl_hist;
     private double valor;
     private double saldo;
     private boolean isValid = true;
 
-    public Movimentacao(String num_conta, String num_age, String documento, String data_mov, String creditoDebito, int id_his, String compl_hist, double valor, double saldo) {
+    public Movimentacao(String num_conta, String num_age, String documento, String data_mov, String tipoCartao, int id_his, String compl_hist, double valor, double saldo) {
         this.num_conta = num_conta;
         this.num_age = num_age;
         this.documento = documento;
         this.data_mov = data_mov;
-        this.creditoDebito = creditoDebito;
+        this.tipoCartao = tipoCartao;
         this.id_his = id_his;
         this.compl_hist = compl_hist;
         this.valor = valor;
@@ -56,8 +57,8 @@ public class Movimentacao {
 
     public void setNum_conta(String num_conta) {
         num_conta = num_conta.trim();
-        if(num_conta.isBlank() || num_conta.isEmpty() || num_conta == null){
-            ShowErrorValidateMessage("Digite o número da conta");
+        if(num_conta == null || num_conta.isBlank() || num_conta.isEmpty()){
+            ShowErrorValidateMessage("O número da conta é obrigatório");
         }
         else{
             this.num_conta = num_conta;
@@ -70,8 +71,8 @@ public class Movimentacao {
 
     public void setNum_age(String num_age) {
         num_age = num_age.trim();
-        if(num_age.isBlank() || num_age.isEmpty() || num_age == null){
-            ShowErrorValidateMessage("Digite o número da agência");
+        if(num_age == null || num_age.isBlank() || num_age.isEmpty()){
+            ShowErrorValidateMessage("O número da Agência é obrigatório");
         }
         else{
             this.num_age = num_age;
@@ -84,8 +85,8 @@ public class Movimentacao {
 
     public void setDocumento(String documento) {
         documento = documento.trim();
-        if(documento.isBlank() || documento.isEmpty() || documento == null){
-            ShowErrorValidateMessage("Digite o número de documento");
+        if(documento == null || documento.isBlank() || documento.isEmpty()){
+            ShowErrorValidateMessage("O número do documento é obrigatório");
         }
         else{
             if(documento.length() <= 6){  
@@ -102,27 +103,39 @@ public class Movimentacao {
     }
 
     public void setData_mov(String data_mov) {
+        if(data_mov == null){
+           ShowErrorValidateMessage("A data é obrigatória");
+        }
         data_mov = data_mov.trim();
-        if(data_mov.isBlank() || data_mov.isEmpty() || data_mov == null){
-            ShowErrorValidateMessage("Digite a data");
-        }
-        else{
+        
+        if(validateDate(data_mov))
             this.data_mov = data_mov;
+        else
+            ShowErrorValidateMessage("Data inserida é inválida");
+    }
+    
+    public boolean validateDate(String date){
+        if(date.length() > 8){
+            date = DateParser.parseDMA(date);
         }
+        return (date != null 
+            && !date.isBlank() 
+            && !date.isEmpty()
+            && date.length() == 8);
     }
 
-    public String getCreditoDebito() {
-        return creditoDebito;
+    public String getTipoCartao() {
+        return tipoCartao;
     }
 
-    public void setCreditoDebito(String creditoDebito) {
-        if(creditoDebito == null || creditoDebito.isBlank() || creditoDebito.isEmpty() ){
+    public void setTipoCartao(String tipoCartao) {
+        if(tipoCartao == null || tipoCartao.isBlank() || tipoCartao.isEmpty() ){
             ShowErrorValidateMessage("Escolha uma opção válida para o cartão");
             return;
         }
-        creditoDebito = creditoDebito.trim();
-        if(creditoDebito == "c" || creditoDebito == "d")
-            this.creditoDebito = creditoDebito;
+        tipoCartao = tipoCartao.trim();
+        if(tipoCartao.equalsIgnoreCase("c") || tipoCartao.equalsIgnoreCase("d"))
+            this.tipoCartao = tipoCartao;
         else
             ShowErrorValidateMessage("Escolha entre credito ou débito");
     }
@@ -145,7 +158,7 @@ public class Movimentacao {
     }
 
     public void setCompl_hist(String compl_hist) {
-        if(!compl_hist.isBlank() && !compl_hist.isEmpty() && compl_hist != null){
+        if(compl_hist != null && !compl_hist.isBlank() && !compl_hist.isEmpty()){
             compl_hist = compl_hist.trim();
             if(compl_hist.length() > 30){
                 ShowErrorValidateMessage("O complemento deve ser menor que 30 caracteres");
@@ -164,6 +177,10 @@ public class Movimentacao {
             ShowErrorValidateMessage("Digite um valor válido");
         }
         else{
+            if(Double.toString(valor).length() > 15){
+                ShowErrorValidateMessage("O valor do saldo deve ser abaixo de 15 caracteres");
+                return;
+            }
             this.valor = valor;
         }
     }
@@ -177,6 +194,10 @@ public class Movimentacao {
             ShowErrorValidateMessage("Digite um saldo válido");
         }
         else{
+            if(Double.toString(saldo).length() > 9){
+                ShowErrorValidateMessage("O valor do saldo deve ser abaixo de 9 caracteres");
+                return;
+            }
             this.saldo = saldo;
         }
     }
@@ -188,7 +209,7 @@ public class Movimentacao {
             getSqlValue(getNum_conta()) + "," + //Num conta
             getSqlValue(getData_mov()) + "," + //Data
             getSqlValue(getDocumento())+ "," + //Num doc
-            getSqlValue(getCreditoDebito()) + "," + //Debito_credito
+            getSqlValue(getTipoCartao()) + "," + //Debito_credito
             getSqlValue(Integer.toString(getId_his())) + "," + //id_his
             getSqlValue(getCompl_hist()) + "," + //compl
             getSqlValue(Double.toString(getValor())) + "," + //valor
@@ -203,7 +224,7 @@ public class Movimentacao {
             "NUM_CC=" + getSqlValue(getNum_conta()) + "," +
             "DATA_MOV=" + getSqlValue(getData_mov()) + "," +
             "NUM_DOCTO=" + getSqlValue(getDocumento()) + "," +
-            "DEBITO_CREDITO=" + getSqlValue(getCreditoDebito()) + "," +
+            "DEBITO_CREDITO=" + getSqlValue(getTipoCartao()) + "," +
             "ID_HIS=" + getSqlValue(Integer.toString(getId_his())) + "," +
             "COMPL_HIS=" + getSqlValue(getCompl_hist()) + "," +
             "VALOR=" + getSqlValue(Double.toString(getValor())) + "," +

@@ -6,6 +6,8 @@ package View;
 
 import DAO.Movimentacao;
 import DAO.connectDAO;
+import Uteis.DateParser;
+import Uteis.NumericInputParser;
 import javax.swing.JOptionPane;
 
 /**
@@ -48,37 +50,26 @@ public class CadMovimentacao extends javax.swing.JFrame {
     
     //UTEIS
     private void SetFormVisible(Boolean bool){
-        jLabel1.setVisible(bool);
-        jLabel2.setVisible(bool);
-        jLabel3.setVisible(bool);
         jLabel4.setVisible(bool);
         jLabel5.setVisible(bool);
-        jLabel6.setVisible(bool);
         jLabel7.setVisible(bool);
         jLabel8.setVisible(bool);
         jLabel9.setVisible(bool);
-        jTextField1.setVisible(bool);
-        jTextField2.setVisible(bool);
         jTextField3.setVisible(bool);
-        jTextField4.setVisible(bool);
         jRadioButton1.setVisible(bool);
         jRadioButton2.setVisible(bool);
-        jTextField5.setVisible(bool);
         jTextField6.setVisible(bool);
         jTextField7.setVisible(bool);
         jTextField8.setVisible(bool);
     }
     
+    private void SetSearchInputsEditable(boolean editable){
+        jTextField1.setEditable(editable);
+        jTextField2.setEditable(editable);
+        jTextField4.setEditable(editable);
+        jTextField5.setEditable(editable);
+    }    
     private void ClearFormInputs(){
-        jLabel1.setText("");
-        jLabel2.setText("");
-        jLabel3.setText("");
-        jLabel4.setText("");
-        jLabel5.setText("");
-        jLabel6.setText("");
-        jLabel7.setText("");
-        jLabel8.setText("");
-        jLabel9.setText("");
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
@@ -107,12 +98,14 @@ public class CadMovimentacao extends javax.swing.JFrame {
     private void SetFormValues(){       
         jTextField1.setText(m.getNum_age()); 
         jTextField2.setText(m.getNum_conta());
-        jTextField3.setText(m.getData_mov());
+        if(m.getData_mov()!= null && m.validateDate(m.getData_mov())){
+            jTextField3.setText(DateParser.parseDMA(m.getData_mov()));
+        }
         jTextField4.setText(m.getDocumento());
-        if(m.getCreditoDebito().equalsIgnoreCase("c"))
-            jRadioButton1.setSelected(false);
-        else if(m.getCreditoDebito().equalsIgnoreCase("d"))
-            jRadioButton2.setSelected(false);
+        if(m.getTipoCartao().equalsIgnoreCase("c"))
+            jRadioButton1.setSelected(true);
+        else if(m.getTipoCartao().equalsIgnoreCase("d"))
+            jRadioButton2.setSelected(true);
         jTextField5.setText(Integer.toString(m.getId_his()));
         jTextField6.setText(m.getCompl_hist());
         jTextField7.setText(Double.toString(m.getValor()));
@@ -122,18 +115,24 @@ public class CadMovimentacao extends javax.swing.JFrame {
     private void SetMovimentacaoObjectValues(){
         m.setNum_age(jTextField1.getText());
         m.setNum_conta(jTextField2.getText());
-        m.setData_mov(jTextField3.getText());
+        if(m.validateDate(jTextField3.getText()))
+        {
+            m.setData_mov(DateParser.parseAMD(jTextField3.getText()));
+        }
+        else{
+            m.ShowErrorValidateMessage("A data inserida é inválida");
+        }
         m.setDocumento(jTextField4.getText());
         if(jRadioButton1.isSelected())
-            m.setCreditoDebito("c");
+            m.setTipoCartao("c");
         else if(jRadioButton2.isSelected())
-            m.setCreditoDebito("d");
+            m.setTipoCartao("d");
         else
-            m.setCreditoDebito(null);
-        m.setId_his(Integer.parseInt(jTextField5.getText()));
+            m.setTipoCartao(null);
+        m.setId_his(NumericInputParser.ParseInt(jTextField5.getText()));
         m.setCompl_hist(jTextField6.getText());
-        m.setValor(Double.parseDouble(jTextField7.getText()));
-        m.setSaldo(Double.parseDouble(jTextField8.getText()));
+        m.setValor(NumericInputParser.ParseDouble(jTextField7.getText()));
+        m.setSaldo(NumericInputParser.ParseDouble(jTextField8.getText()));
     }
     
     /**
@@ -274,8 +273,8 @@ public class CadMovimentacao extends javax.swing.JFrame {
                 connectDAO objcon = new connectDAO();
                 objcon.connectDB();
                 objcon.alteraRegistroJFDB("MOVIMENTACAO", m.alteraDadosSQLValues(), 
-                "ID_HIS=" +jTextField1.getText());
-                
+                "NUM_AGE = '" + jTextField1.getText() + "' and NUM_CC = '" + jTextField2.getText() + "' and NUM_DOCTO = '" + jTextField4.getText() + "' and ID_HIS = '" + jTextField5.getText() + "'");
+                SetSearchInputsEditable(true);
                 //Limpando todos os textos
                 ClearFormInputs();
                 SetFormVisible(false);
@@ -293,9 +292,11 @@ public class CadMovimentacao extends javax.swing.JFrame {
         if(operacaoAtivaGlobal.equals((operacao))){
             //Pesquisa o clinte com o ID especificado
             connectDAO objcon = new connectDAO();
-            m = objcon.pesquisaMovimentacaoJFDB("MOVIMENTACAO", "ID_HIS = '" + jTextField1.getText() + "'");
+            m = objcon.pesquisaMovimentacaoJFDB("MOVIMENTACAO", 
+                    "NUM_AGE = '" + jTextField1.getText() + "' and NUM_CC = '" + jTextField2.getText() + "' and NUM_DOCTO = '" + jTextField4.getText() + "' and ID_HIS = '" + jTextField5.getText() + "'");
             
             if(m != null){
+                SetSearchInputsEditable(false);
                 SetFormValues();
                 SetFormVisible(true);
                 jButton1.setText("Alterar");
@@ -307,7 +308,7 @@ public class CadMovimentacao extends javax.swing.JFrame {
         operacao = "Exclusão";
         if(operacaoAtivaGlobal.equals((operacao))){
             connectDAO objcon = new connectDAO();
-            objcon.excluiRegistroJFDB("MOVIMENTACAO","ID_HIS=" + jTextField1.getText());
+            objcon.excluiRegistroJFDB("MOVIMENTACAO","NUM_AGE = '" + jTextField1.getText() + "' and NUM_CC = '" + jTextField2.getText() + "' and NUM_DOCTO = '" + jTextField4.getText() + "' and ID_HIS = '" + jTextField5.getText() + "'");
 
             //Limpando todos os textos
             ClearFormInputs();
@@ -323,7 +324,7 @@ public class CadMovimentacao extends javax.swing.JFrame {
         if(operacaoAtivaGlobal.equals((operacao))){
             //Pesquisa o cliente com o ID especificado
             connectDAO objcon = new connectDAO();
-            m = objcon.pesquisaMovimentacaoJFDB("MOVIMENTACAO", "ID_HIS = '" + jTextField1.getText() + "'");
+            m = objcon.pesquisaMovimentacaoJFDB("MOVIMENTACAO", "NUM_AGE = '" + jTextField1.getText() + "' and NUM_CC = '" + jTextField2.getText() + "' and NUM_DOCTO = '" + jTextField4.getText() + "' and ID_HIS = '" + jTextField5.getText() + "'");
             if(m != null){
                 //Mostrando os campos para que possam ser alterados
                 jButton1.setText("Excluir");

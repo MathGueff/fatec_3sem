@@ -10,13 +10,13 @@ package Uteis;
  */
 public class NumericInputParser {
     
-    static int ParseInt(String inputValue){
+    public static int ParseInt(String inputValue){
         if(NumericInputParser.IsValueValid(inputValue)) return 0;
         
         return Integer.parseInt(inputValue);
     }
     
-    static double ParseDouble(String inputValue){
+    public static double ParseDouble(String inputValue){
         if(NumericInputParser.IsValueValid(inputValue)) return 0;
         
         return Double.parseDouble(inputValue);

@@ -1,6 +1,7 @@
 package DAO; 
 
 //import java.util.List;
+import Uteis.DateParser;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -327,13 +328,13 @@ public class connectDAO {
                     else{
                         movimentacaoReturn.setNum_age(dados.getString(1));
                         movimentacaoReturn.setNum_conta(dados.getString(2));
-                        movimentacaoReturn.setData_mov(dados.getString(3));
+                        movimentacaoReturn.setData_mov((dados.getString(3)));
                         movimentacaoReturn.setDocumento(dados.getString(4));
-                        movimentacaoReturn.setCreditoDebito(dados.getString(5));
+                        movimentacaoReturn.setTipoCartao(dados.getString(5));
                         movimentacaoReturn.setId_his(dados.getInt(6));
                         movimentacaoReturn.setCompl_hist(dados.getString(7));
-                        movimentacaoReturn.setValor(dados.getDouble(7));
-                        movimentacaoReturn.setSaldo(dados.getDouble(8));
+                        movimentacaoReturn.setValor(dados.getDouble(8));
+                        movimentacaoReturn.setSaldo(dados.getDouble(9));
                     }
                     con.close();
                 } catch(SQLException erro){
