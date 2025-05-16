@@ -350,6 +350,46 @@ public class connectDAO {
         return movimentacaoReturn;
     }
     
+    public Usuario pesquisaUsuarioJFDB(String tabela, String pesquisaId){
+        Usuario usuarioReturn = new Usuario();
+        String tabelaSGBD = "USUARIOS";
+        
+        if(tabela.equals(tabelaSGBD)){
+            con = connectDB();
+            
+            Statement stmt;
+            
+            try {
+                stmt = con.createStatement();
+                String sql = "SELECT * FROM " + tabela + " WHERE " + pesquisaId;
+                JOptionPane.showMessageDialog(null, "String de Select: " + sql);
+                try {
+                    ResultSet dados;
+                    dados = stmt.executeQuery(sql);
+                    if(dados.next() == false){
+                        JOptionPane.showMessageDialog(null, "Nenhum registro foi encontrado para essa pesquisa");
+                        usuarioReturn = null;
+                    }
+                    else{
+                        usuarioReturn.setIdUsuario(dados.getInt(1));
+                        usuarioReturn.setSenha(dados.getString(2));
+                        usuarioReturn.setNum_agencia(dados.getInt(3));
+                        usuarioReturn.setNum_cc(dados.getInt(4));
+                    }
+                    con.close();
+                } catch(SQLException erro){
+                    JOptionPane.showMessageDialog(null, "Erro de conexão, connectDAO - Mensagem => "+erro.getMessage());
+                    JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Estado => "+erro.getSQLState());
+                    JOptionPane.showMessageDialog(null, "\n Erro de conexão, connectDAO - Código => "+erro.getErrorCode());
+                }
+                con.close();
+            } catch(SQLException ex){
+                Logger.getLogger(connectDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return usuarioReturn;
+    }
+    
     public List<Cliente> consultaRegistroClienteBD(){
         con = connectDB();
         List<Cliente> clientes = new ArrayList<>();

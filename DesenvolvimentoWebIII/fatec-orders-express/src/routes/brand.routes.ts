@@ -9,6 +9,12 @@ const logger = (req : Request, res : Response, next : NextFunction) => {
    next();
 }
 
+const authorize = (req : Request, res : Response, next : NextFunction) => {
+   
+   next();
+}
+
+router.use(authorize);
 router.use(logger);
 
 const createBrandMiddleware = (req : Request, res : Response, next : NextFunction) => {

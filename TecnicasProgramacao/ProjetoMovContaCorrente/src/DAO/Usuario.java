@@ -15,27 +15,44 @@ public class Usuario {
     private int id_usuario;
     private int num_agencia;
     private int num_cc;
+    private boolean isValid = true;
     
     public Usuario(String senha,int id_usuario, int num_agencia, int num_cc){
         this.senha = senha;
         this.id_usuario = id_usuario;
         this.num_agencia = num_agencia;
         this.num_cc = num_cc;
+        this.isValid = true;
     }
     
     public Usuario(){}
+    
+    public void ShowErrorValidateMessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+        setIsValid(false);
+    }
+
+    public boolean getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
+    }
 
     public String getSenha() {
         return senha;
     }
 
     public void setSenha(String senha) {
-        senha = senha.trim();
-        if(senha.isBlank() || senha.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Digite uma senha válida");
+        if(senha != null && senha.isBlank() || senha.isEmpty()){
+            ShowErrorValidateMessage("Digite uma senha válida");
+            return;
         }
-        else if(senha.length() < 10){
-            JOptionPane.showMessageDialog(null, "A senha deve ter pelo menos 10 caracteres");
+        
+        senha = senha.trim();
+        if(senha.length() < 10){
+            ShowErrorValidateMessage("A senha deve ter pelo menos 10 caracteres");
         }
         else{
             this.senha = senha;
@@ -47,8 +64,8 @@ public class Usuario {
     }
 
     public void setIdUsuario(int id_usuario) {
-        if(id_usuario == 0){
-            JOptionPane.showMessageDialog(null, "Digite um número de usuário válido");
+        if(id_usuario <= 0){
+            ShowErrorValidateMessage("O id do usuário é obrigatório e não pode ser menor ou igual a 0");
         }
         else{
             this.id_usuario = id_usuario;
@@ -60,12 +77,12 @@ public class Usuario {
     }
 
     public void setNum_agencia(int num_agencia) {
-        if(num_agencia == 0){
-            JOptionPane.showMessageDialog(null, "Digite um número da agência válido");
+        if(num_agencia <= 0){
+            ShowErrorValidateMessage("Digite um valor válido para o número da agência");
         }
         else{
             this.num_agencia = num_agencia;
-        }
+        }   
     }
     
     public int getNum_cc() {
@@ -74,7 +91,7 @@ public class Usuario {
 
     public void setNum_cc(int num_cc) {
         if(num_cc <= 0){
-            JOptionPane.showMessageDialog(null, "Digite um número de conta corrente válida");
+            ShowErrorValidateMessage("Digite um número de conta corrente válida");
         }
         else{
             this.num_cc = num_cc;
@@ -82,12 +99,21 @@ public class Usuario {
     }
     
     public String dadosSQLValues(){
-        String dadosContaCorrente;
-        dadosContaCorrente = 
+        String dadosUsuario;
+        dadosUsuario = 
             getSqlValue(getSenha()) + "," +
             getSqlValue(Integer.toString(getNum_agencia())) + "," +
             getSqlValue(Integer.toString(getNum_cc()));   
-        return dadosContaCorrente;        
+        return dadosUsuario;        
+    }
+    
+     public String alteraDadosSQLValues(){
+        String dadosUsuario;
+        dadosUsuario = 
+            "SENHA=" + getSqlValue(getSenha()) + "," +
+            "NUM_AGE=" + getSqlValue(Integer.toString(getNum_agencia())) + "," +
+            "NUM_CC=" + getSqlValue(Integer.toString(getNum_cc()));
+            return dadosUsuario;
     }
     
     // Função auxiliar para verificar se o valor é nulo ou vazio

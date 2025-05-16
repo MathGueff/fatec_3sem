@@ -130,6 +130,8 @@ public class Cliente {
         if(date.length() > 8){
             date = DateParser.parseDMA(date);
         }
+        else
+             ShowErrorValidateMessage("Data inserida é inválida, deve estar no formato DDMMYYYY");
         return (date != null 
             && !date.isBlank() 
             && !date.isEmpty()

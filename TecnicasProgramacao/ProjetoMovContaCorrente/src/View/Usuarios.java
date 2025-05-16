@@ -6,6 +6,8 @@ package View;
 
 import DAO.Usuario;
 import DAO.connectDAO;
+import Uteis.DateParser;
+import Uteis.NumericInputParser;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,34 +29,62 @@ public class Usuarios extends javax.swing.JFrame {
         initComponents();
         operacaoAtivaGlobal = operacaoAtiva;
         String operacao = "Incluir";
-        
+        //INCLUSÃO
         if(operacaoAtiva.equals(operacao)){
-            jTextField1.setVisible(false);
-            jTextField2.setVisible(true);
-            jTextField3.setVisible(true);
-            jTextField4.setVisible(true);
-            jLabel1.setVisible(false);
-            jLabel2.setVisible(true);
-            jLabel3.setVisible(true);
-            jLabel4.setVisible(true);
-            jButton1.setText(operacaoAtivaGlobal + " BD");
+            SetFormVisible(true);
+            jButton1.setText(operacaoAtivaGlobal);
         }
         operacao = "Alterar";
         if(operacaoAtiva.equals(operacao)){
-            jTextField1.setVisible(true);
-            jTextField2.setVisible(false);
-            jTextField3.setVisible(false);
-            jTextField4.setVisible(false);
-            jLabel1.setVisible(true);
-            jLabel2.setVisible(false);
-            jLabel3.setVisible(false);
-            jLabel4.setVisible(false);
-            jButton1.setText(operacaoAtivaGlobal + " BD");;
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
+        }
+        operacao = "Excluir";
+        if(operacaoAtiva.equals(operacao)){
+            SetFormVisible(false);
+            jButton1.setText("Pesquisar");
         }
     }
 
     Usuario u = new Usuario();
+    //UTEIS
+    private void SetFormVisible(Boolean bool){
+        jLabel1.setVisible(!bool);
+        jLabel2.setVisible(bool);
+        jLabel3.setVisible(bool);
+        jLabel4.setVisible(bool);
+        jTextField1.setVisible(!bool);
+        jTextField2.setVisible(bool);
+        jTextField3.setVisible(bool);
+        jTextField4.setVisible(bool);
+    }
     
+    private void ClearFormInputs(){
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+    }
+    
+    private void SetFormEditable(boolean bool){
+        jTextField1.setEditable(bool);
+        jTextField2.setEditable(bool);
+        jTextField3.setEditable(bool);
+        jTextField4.setEditable(bool);
+    }
+    
+    private void SetFormValues(){       
+        jTextField1.setText(Integer.toString(u.getIdUsuario()));
+        jTextField2.setText(u.getSenha());
+        jTextField3.setText(Integer.toString(u.getNum_agencia()));
+        jTextField4.setText(Integer.toString(u.getNum_cc()));
+    }
+    
+    private void SetUsuarioObjectValues(){
+        u.setSenha(jTextField2.getText());
+        u.setNum_agencia(NumericInputParser.ParseInt(jTextField3.getText()));
+        u.setNum_cc(NumericInputParser.ParseInt(jTextField4.getText()));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -125,30 +155,99 @@ public class Usuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        u.setSenha(jTextField2.getText());
-        u.setNum_agencia(Integer.parseInt(jTextField3.getText()));
-        u.setNum_cc(Integer.parseInt(jTextField4.getText()));
+        String operacao = "Incluir";
+        if(operacaoAtivaGlobal.equals(operacao)){
+            SetUsuarioObjectValues();
+            if(u.getIsValid()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.insereRegistroJFBD("USUARIOS", u.dadosSQLValues());
+                ClearFormInputs();
+            }
+            else{
+                u.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                u.setIsValid(true);
+            }
+        }
+        operacao = "Alteração";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            SetUsuarioObjectValues();
+            //ALteração no banco de dados
+            if(u.getIsValid()){
+                //Inserção no banco de dados
+                connectDAO objcon = new connectDAO();
+                objcon.connectDB();
+                objcon.alteraRegistroJFDB("USUARIOS", u.alteraDadosSQLValues(), 
+                "ID = '" + jTextField1.getText() + "'");
+                //Limpando todos os textos
+                ClearFormInputs();
+                SetFormVisible(false);
+                jButton1.setText("Pesquisar");
+                operacaoAtivaGlobal = "Alterar";
+                return;
+            }
+            else{
+                u.ShowErrorValidateMessage("Campos preenchidos incorretamente");
+                u.setIsValid(true);
+            }
+        }
         
-        connectDAO objcon = new connectDAO();
-        objcon.connectDB();
-        objcon.insereRegistroJFBD("USUARIOS", u.dadosSQLValues());
+        operacao = "Alterar";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            //Pesquisa o clinte com o ID especificado
+            connectDAO objcon = new connectDAO();
+            u = objcon.pesquisaUsuarioJFDB("USUARIOS", 
+                    "ID = '" + jTextField1.getText() + "'");
+            
+            if(u != null){
+                SetFormValues();
+                SetFormVisible(true);
+                jButton1.setText("Alterar");
+                operacaoAtivaGlobal = "Alteração";
+            }
+            return;
+        }
         
-        jTextField3.setText("");
-        jTextField2.setText("");
-        jTextField4.setText("");
+        operacao = "Exclusão";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            connectDAO objcon = new connectDAO();
+            objcon.excluiRegistroJFDB("USUARIOS","ID= '" + u.getIdUsuario() +  "'");
+
+            //Limpando todos os textos
+            ClearFormInputs();
+            SetFormVisible(false);
+            SetFormEditable(true);
+            
+            jButton1.setText("Pesquisar");
+            operacaoAtivaGlobal = "Excluir";
+            return;
+        }
+        
+        operacao = "Excluir";
+        if(operacaoAtivaGlobal.equals((operacao))){
+            //Pesquisa o cliente com o ID especificado
+            connectDAO objcon = new connectDAO();
+            u = objcon.pesquisaUsuarioJFDB("USUARIOS", 
+                    "ID = '" + jTextField1.getText() + "'");
+            if(u != null){
+                //Mostrando os campos para que possam ser alterados
+                jButton1.setText("Excluir");
+                operacaoAtivaGlobal = "Exclusão";
+                SetFormValues();
+                SetFormVisible(true);
+                SetFormEditable(false);
+            }
+            return;
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limparActionPerformed
-//        jTextField1.setText("");
-//        jTextField3.setText("");
-//        jTextField2.setText("");
-//        jTextField4.setText("");
+        ClearFormInputs();
     }//GEN-LAST:event_btn_limparActionPerformed
 
     private void btn_lerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lerActionPerformed
-        jTextField1.setText(Integer.toString(u.getIdUsuario()));
-        jTextField2.setText(u.getSenha());
-        jTextField4.setText(Integer.toString(u.getNum_agencia()));
+        
     }//GEN-LAST:event_btn_lerActionPerformed
 
     /**

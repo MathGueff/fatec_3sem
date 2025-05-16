@@ -103,7 +103,7 @@ public class Movimentacao {
     }
 
     public void setData_mov(String data_mov) {
-        if(data_mov == null){
+        if(data_mov == null || data_mov.isBlank() || data_mov.isEmpty()){
            ShowErrorValidateMessage("A data é obrigatória");
         }
         data_mov = data_mov.trim();
@@ -111,13 +111,15 @@ public class Movimentacao {
         if(validateDate(data_mov))
             this.data_mov = data_mov;
         else
-            ShowErrorValidateMessage("Data inserida é inválida");
+            ShowErrorValidateMessage("Data inserida é inválida, deve estar no formato DDMMYYYY");
     }
     
     public boolean validateDate(String date){
         if(date.length() > 8){
             date = DateParser.parseDMA(date);
         }
+        else
+            ShowErrorValidateMessage("Data inserida é inválida, deve estar no formato DDMMYYYY");
         return (date != null 
             && !date.isBlank() 
             && !date.isEmpty()

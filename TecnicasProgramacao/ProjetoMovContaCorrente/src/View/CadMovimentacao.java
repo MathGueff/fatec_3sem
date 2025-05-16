@@ -165,9 +165,9 @@ public class CadMovimentacao extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
-        btnLer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Número da Conta");
@@ -236,14 +236,6 @@ public class CadMovimentacao extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLimpar, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 271, -1, -1));
-
-        btnLer.setText("Ler");
-        btnLer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLerActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnLer, new org.netbeans.lib.awtextra.AbsoluteConstraints(366, 271, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -354,22 +346,8 @@ public class CadMovimentacao extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-//        jTextField1.setText("");
-//        jTextField2.setText("");
-//        jTextField3.setText("");
-//        jTextField4.setText("");
-//        jTextField5.setText("");
-//        jTextField6.setText("");
-//        jTextField7.setText("");
-//        jTextField8.setText("");
-//        jRadioButton1.setSelected(false);
-//        jRadioButton2.setSelected(false);
-//        tipoCartao = "";
+        ClearFormInputs();
     }//GEN-LAST:event_btnLimparActionPerformed
-
-    private void btnLerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLerActionPerformed
-      
-    }//GEN-LAST:event_btnLerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -410,7 +388,6 @@ public class CadMovimentacao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLer;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
