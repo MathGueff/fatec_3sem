@@ -1,13 +1,33 @@
 import express from 'express'
-import { getMunicipiosById, createMunicipio } from '../controller/municipios.js'
-import { validateMunicipio } from '../middleware/validations.js'
+import {
+getMunicipios,
+getMunicipioById,
+createMunicipio,
+updateMunicipio,
+deleteMunicipio,
+getMunicipiosByDistance
+} from "../controller/municipios.js"
+import { validateMunicipio, validateUpdateMunicipio, validateObjectId } from "../middleware/validations.js"
 import auth from '../middleware/auth.js'
 const router = express.Router()
 
-//GET Municipio by id
-router.get('/:id', auth, getMunicipiosById)
+// Get all municipios
+router.get("/", auth, getMunicipios)
 
-//POST cria um novo munícipio
-router.post('/', validateMunicipio, createMunicipio)
+// Get municipios by distance
+router.get("/nearby", getMunicipiosByDistance)
+
+// Get municipio by ID
+router.get("/:id", validateObjectId, getMunicipioById)
+
+// Create new municipio
+router.post("/", validateMunicipio, createMunicipio)
+
+// Update municipio
+router.put("/:id", validateObjectId, validateUpdateMunicipio, updateMunicipio)
+
+// Delete municipio
+router.delete("/:id", validateObjectId, deleteMunicipio)
+
 
 export default router

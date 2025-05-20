@@ -1,21 +1,24 @@
 import express, { NextFunction, Router } from 'express'
 import { Request, Response } from "express";
 import { create, listAll } from '../controllers/brand.controller';
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 //Utilizamos para implementar as rotas de produto
 const router = express.Router();
 
-const logger = (req : Request, res : Response, next : NextFunction) => {
-   console.log("LOGGED")
-   next();
-}
+const authorize = (req: Request, res: Response, next: NextFunction) => {
+  const { authorization } = req.headers;
+  const secret = process.env.AUTH_SECRET || "";
 
-const authorize = (req : Request, res : Response, next : NextFunction) => {
-   
-   next();
-}
+  jwt.verify(authorization || "", secret, (err) => {
+    if (err) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    next();
+  });
+};
 
 router.use(authorize);
-router.use(logger);
 
 const createBrandMiddleware = (req : Request, res : Response, next : NextFunction) => {
    console.log("Descrição: " + req.body.description)

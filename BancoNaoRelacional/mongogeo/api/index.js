@@ -10,6 +10,7 @@ config()
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json()) // forçando a trabalhar com JSON
+app.use(cors()) //Habilita o CORS Cross-Origin resource sharing
 
 //rota pública
 app.use('/', express.static('public'))

@@ -6,8 +6,8 @@ POST {{baseURL}}
 Content-Type: application/json
 
 {
-    "nome" : "Alberto Einstein",
-    "email" : "loginho@fatec.gov.br",
+    "nome" : "Zée",
+    "email" : "ze@uol.com.br",
     "senha" : "{{senha}}"
 }
 
@@ -17,8 +17,8 @@ POST {{baseURL}}/login
 Content-Type: application/json
 
 {
-    "email" : "loginho@fatec.gov.br",
+    "email" : "ze@uol.com.br",
     "senha" : "{{senha}}"
 }
 
-//Senha Login1*
+//Senha Fate@2025*

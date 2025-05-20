@@ -16,10 +16,10 @@ export const insereUsuario = async(req, res) => {
     //Salvando usuários
     const db = req.app.locals.db
     await db.collection('usuarios')
-        .insertOne(req.body)
-        .then(result => res.status(201).send(result)
-            .catch(err => res.status(400).json(err))
-        )
+            .insertOne(req.body)
+            .then(result => res.status(201).send(result)
+                .catch(err => res.status(400).json(err))
+            )
 }
 
 export const efetuaLogin = async (req, res) => {
@@ -47,14 +47,14 @@ export const efetuaLogin = async (req, res) => {
                 }]
             })
         jwt.sign(
-            {usuario : {id : usuario[0]._id}},
+            {usuario: {id: usuario[0]._id}},
             process.env.SECRET_KEY,
             {expiresIn: process.env.EXPIRES_IN},
             (err, token) => {
                 if(err) throw err
                 res.status(200).json({
-                    access_token : token,
-                    msg : 'Login efetuado com sucesso'
+                    access_token: token,
+                    msg: 'Login efetuado com sucesso'
                 })
             }
         )
